@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>APP_ICON.ico</ApplicationIcon>
@@ -52,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\ImageMerge.cs" />
+    <Compile Include="API\NotifyBox.cs" />
     <Compile Include="API\Utility.cs" />
     <Compile Include="API\Viewer.cs" />
     <Compile Include="GlobalVar.cs" />
@@ -60,6 +62,27 @@
     </Compile>
     <Compile Include="Interface\CopyrightAgree.Designer.cs">
       <DependentUpon>CopyrightAgree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\CustomInterface.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Interface\Information.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Information.Designer.cs">
+      <DependentUpon>Information.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\NotifyBoxInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\NotifyBoxInterface.Designer.cs">
+      <DependentUpon>NotifyBoxInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\Welcome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\Welcome.Designer.cs">
+      <DependentUpon>Welcome.cs</DependentUpon>
     </Compile>
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
@@ -72,6 +95,15 @@
     <Compile Include="API\Webtoon.cs" />
     <EmbeddedResource Include="Interface\CopyrightAgree.resx">
       <DependentUpon>CopyrightAgree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Information.resx">
+      <DependentUpon>Information.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\NotifyBoxInterface.resx">
+      <DependentUpon>NotifyBoxInterface.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\Welcome.resx">
+      <DependentUpon>Welcome.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -100,13 +132,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\minimize.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\close.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="APP_ICON.ico" />
+    <None Include="Resources\background.png" />
+    <None Include="Resources\minimize.png" />
+    <None Include="Resources\close.png" />
+    <None Include="Resources\APP_ICON_150x150.png" />
+    <None Include="Resources\law.png" />
+    <None Include="Resources\ERROR_ICON.png" />
+    <None Include="Resources\WARNING_ICON.png" />
+    <None Include="Resources\QUESTION_ICON.png" />
+    <None Include="Resources\INFORMATION_ICON.png" />
     <None Include="Resources\date.png" />
     <None Include="Resources\star.png" />
     <None Include="Resources\APP_ICON_30x30.png" />

@@ -9,28 +9,62 @@ namespace WebtoonStoreForm.API
 {
 	static class Viewer
 	{
-		public static void Create( string directory, WebtoonPageInformation info )
+		public enum ViewerCreateResult
 		{
-			if ( File.Exists( "htmlBase.html" ) )
+			Success,
+			DirectoryNotFoundException,
+			IOException,
+			UnauthorizedAccessException,
+			Unknown
+		}
+
+		public static ViewerCreateResult Create( string directory, WebtoonPageInformation info )
+		{
+			try
 			{
-				string baseHTML = File.ReadAllText( "htmlBase.html", Encoding.UTF8 );
+				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo( "en-US" );
 
-				baseHTML = baseHTML.Replace( "#title", info.title );
+				//http://comic.naver.com/webtoon/list.nhn?titleId=686029&weekday=wed
+				string[ ] files = Directory.GetFiles( directory + @"\이미지", "image_*.png", SearchOption.TopDirectoryOnly );
+				StringBuilder htmlSB = new StringBuilder( GlobalVar.viewerBaseHTMLString );
 
-				string[ ] files = Directory.GetFiles( directory + @"\이미지\", "image_*.png" );
+				htmlSB.Replace( "#title", info.title );
 
+				// 이미지들 이름에 따라 정렬 (Natural Sort)
 				Array.Sort( files, new Sort.NaturalStringComparer( ) );
 
-				StringBuilder sb = new StringBuilder( );
+				StringBuilder imageSB = new StringBuilder( );
 
 				foreach ( string i in files )
 				{
-					sb.Append( @"<img src = '이미지/" + Path.GetFileName( i ) + "' />" + Environment.NewLine );
+					imageSB.AppendLine( "<img src = '이미지/" + Path.GetFileName( i ) + "' />" );
 				}
 
-				baseHTML = baseHTML.Replace( "#images", sb.ToString( ) );
+				htmlSB.Replace( "#images", imageSB.ToString( ) );
 
-				File.WriteAllText( directory + "\\웹툰 뷰어.html", baseHTML, Encoding.UTF8 );
+				File.WriteAllText( directory + "\\웹툰 뷰어.html", htmlSB.ToString( ), Encoding.UTF8 );
+
+				return ViewerCreateResult.Success;
+			}
+			catch ( DirectoryNotFoundException ex )
+			{
+				Utility.WriteErrorLog( ex.Message, "DirectoryNotFoundException" );
+				return ViewerCreateResult.DirectoryNotFoundException;
+			}
+			catch ( IOException ex )
+			{
+				Utility.WriteErrorLog( ex.Message, "IOException" );
+				return ViewerCreateResult.IOException;
+			}
+			catch ( UnauthorizedAccessException ex )
+			{
+				Utility.WriteErrorLog( ex.Message, "UnauthorizedAccessException" );
+				return ViewerCreateResult.UnauthorizedAccessException;
+			}
+			catch ( Exception ex )
+			{
+				Utility.WriteErrorLog( ex.Message, "Exception" );
+				return ViewerCreateResult.Unknown;
 			}
 		}
 	}
