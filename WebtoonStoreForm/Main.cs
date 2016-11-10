@@ -319,7 +319,7 @@ namespace WebtoonStoreForm
 				else
 				{
 					UIStatusVar = UIStatus.Idle;
-					NotifyBox.Show( this, "오류", "데이터를 불러올 수 없습니다.", NotifyBoxType.OK, NotifyBoxIcon.Error );
+					NotifyBox.Show( this, "오류", "해당 웹툰의 데이터를 불러올 수 없습니다.", NotifyBoxType.OK, NotifyBoxIcon.Error );
 				}
 			} )
 			{

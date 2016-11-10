@@ -70,7 +70,8 @@ namespace WebtoonStoreForm
 			{
 				System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString( ( new Uri( url ) ).Query );
 
-				if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) && !string.IsNullOrEmpty( query.Get( "weekday" ) ) )
+				//if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) && !string.IsNullOrEmpty( query.Get( "weekday" ) ) )
+				if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) )
 				{
 					return true;
 				}
@@ -120,7 +121,6 @@ namespace WebtoonStoreForm
 											return int.Parse( node2.InnerText );
 										}
 									}
-									
 								}
 							}
 						}
@@ -155,6 +155,8 @@ namespace WebtoonStoreForm
 
 			try
 			{
+				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo( "en-US" );
+
 				HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( targetPageURL );
 				request.Method = "GET";
 
@@ -182,7 +184,6 @@ namespace WebtoonStoreForm
 										if ( node2.OriginalName == "td" )
 										{
 											// 업로드 날짜 정보 찾기
-
 											int tdNodeI = 0;
 											foreach ( HtmlNode node3 in document.DocumentNode.SelectNodes( "//td" ) )
 											{
@@ -200,7 +201,6 @@ namespace WebtoonStoreForm
 											// 별점 정보 찾기
 											int nodeI = 0; // td 하위 노드의 div 개수를 체크하기 위함
 
-											/* 여기 머리통 깨지는줄; */
 											foreach ( HtmlNode node3 in document.DocumentNode.SelectNodes( "//div" ) )
 											{
 												if ( node3.GetAttributeValue( "class", "" ) == "rating_type" )
@@ -226,7 +226,7 @@ namespace WebtoonStoreForm
 												}
 											}
 
-											//기타 데이터 찾기
+											// 기타 데이터 찾기
 											foreach ( HtmlNode node3 in node2.ChildNodes )
 											{
 												if ( node3.OriginalName == "a" )
@@ -266,7 +266,21 @@ namespace WebtoonStoreForm
 			}
 			catch ( WebException ex )
 			{
-				// Console.WriteLine( "Exception -> " + ex.Message );
+				if ( ex.Response == null )
+				{
+					Utility.WriteErrorLog( ex.Message, "WebException" );
+					ErrorMessageCall.Invoke( "귀하의 인터넷 연결을 확인하세요." );
+				}
+				else
+				{
+					Utility.WriteErrorLog( ex.Message, "WebException" );
+					ErrorMessageCall.Invoke( "서버에서 오류가 발생했습니다, " + ex.Response + " 오류 코드를 반환했습니다." );
+				}
+			}
+			catch ( Exception ex )
+			{
+				Utility.WriteErrorLog( ex.Message, "Exception" );
+				ErrorMessageCall.Invoke( "알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
 			}
 
 			return pages;
@@ -451,6 +465,38 @@ namespace WebtoonStoreForm
 										HtmlDocument document = new HtmlDocument( );
 										document.LoadHtml( htmlResult );
 
+										//	특정 웹툰의 설명을 못 가져오는 이유
+										//
+										//	"이거 나만 그런거 아니지?"
+										//	응, 너만 그런거 아니야.
+										//	반박불가 공감이 밀려온다.
+										//
+										//	이러한 설명이 있다고 가정을 하면
+										//	HTML 코드의 설명 meta 부분의 정의는
+										//	<meta property="og:description" content=""이거 나만 그런거 아니지?"
+										//	응, 너만 그런거 아니야.\n반박불가 공감이 밀려온다.">
+										//	로 정의된다 하지만 node.GetAttributeValue( "content", "" ) 메소드를 사용하여
+										//	content 프로퍼티의 값을 가져오려하면 웹툰 설명에 " 로 시작을 하기 때문에
+										//	공백으로 지정된 채 값을 가져오게 됨.
+
+										int descStart = htmlResult.IndexOf( "meta property=\"og:description\"" );
+
+										string[ ] trashDatas = htmlResult.Substring( descStart, htmlResult.IndexOf( ">", descStart ) - descStart )
+											.Split( new char[ 1 ] { '"' }, StringSplitOptions.RemoveEmptyEntries );
+										
+										string desc = "";
+
+										try
+										{
+											for ( int i = 3; i < trashDatas.Length; i++ )
+											{
+												desc += trashDatas[ i ] + Environment.NewLine;
+											}
+										}
+										catch ( IndexOutOfRangeException ) { }
+
+										returnInfo.description = desc.Trim( );
+
 										foreach ( HtmlNode node in document.DocumentNode.SelectNodes( "//meta" ) )
 										{
 											switch ( node.GetAttributeValue( "property", "" ) )
@@ -458,9 +504,9 @@ namespace WebtoonStoreForm
 												case "og:title": // 해당 웹툰 이름
 													returnInfo.title = node.GetAttributeValue( "content", "" ).Trim( );
 													break;
-												case "og:description": // 해당 웹툰 설명
-													returnInfo.description = node.GetAttributeValue( "content", "" ).Trim( );
-													break;
+												//case "og:description": // 해당 웹툰 설명 
+												//	returnInfo.description = node.GetAttributeValue( "content", "" ).Trim( ); // 일부 웹툰에서 버그가 발생
+												//	break;
 												case "og:image": // 해당 웹툰 썸네일 이미지
 													returnInfo.thumbnailURL = node.GetAttributeValue( "content", "" ).Trim( );
 													break;
