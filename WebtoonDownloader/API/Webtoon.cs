@@ -74,8 +74,9 @@ namespace WebtoonDownloader
 			{
 				System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString( ( new Uri( url ) ).Query );
 
-				//if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) && !string.IsNullOrEmpty( query.Get( "weekday" ) ) )
-				if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) )
+				if ( url.IndexOf( "page" ) > 0 ) return false; // &page 방지
+
+				if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) && string.IsNullOrEmpty( query.Get( "page" ) ) )
 				{
 					return true;
 				}
@@ -91,14 +92,11 @@ namespace WebtoonDownloader
 		// 해당 웹툰의 최대 리스트 페이지를 반환.
 		public static int GetListMaxPage( string url )
 		{
-			// 추가 바람
-			// page 가 url 에 이미 있는 경우 지우는 코드가 필요
-
-			url += "&page=999999999"; // 999999999 로 요청할 시 가장 뒤에 페이지로 이동
-
 			try
 			{
 				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo( "en-US" );
+
+				url += "&page=999999999"; // 999999999 로 요청할 시 가장 뒤에 페이지로 이동
 
 				HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( url );
 				request.Method = "GET";
@@ -351,7 +349,6 @@ namespace WebtoonDownloader
 
 			StatusMessageLabelSet.Invoke( "다운로드 준비 중 ..." );
 
-			//Directory.CreateDirectory( thisDir );
 			Directory.CreateDirectory( thisDir + "\\이미지" );
 
 			Webtoon.ThumbnailImageDownload( thisDir, info.thumbnailURL );
@@ -428,9 +425,10 @@ namespace WebtoonDownloader
 					}
 				}
 			}
-			catch ( Exception )
+			catch ( Exception ex )
 			{
-
+				Utility.WriteErrorLog( ex.Message, "Exception" );
+				ErrorMessageCall.Invoke( "알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
 			}
 		}
 

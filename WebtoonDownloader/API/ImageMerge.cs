@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WebtoonDownloader.API
 {
@@ -21,7 +17,7 @@ namespace WebtoonDownloader.API
 
 			foreach ( string i in files )
 			{
-				System.Drawing.Image img = Bitmap.FromFile( i );
+				Image img = Image.FromFile( i );
 
 				totalH += img.Size.Height;
 
@@ -37,7 +33,7 @@ namespace WebtoonDownloader.API
 			int y = 0;
 			foreach ( string i in files )
 			{
-				System.Drawing.Image img = Bitmap.FromFile( i );
+				Image img = Image.FromFile( i );
 
 				g.DrawImage( img, 0, y );
 

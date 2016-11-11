@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebtoonDownloader
+﻿namespace WebtoonDownloader
 {
 	static class GlobalEnum
 	{
@@ -20,8 +13,6 @@ namespace WebtoonDownloader
 
 		static GlobalVar( )
 		{
-			//if ( File.Exists( System.Windows.Forms.Application.StartupPath ))
-			//string baseHTML = File.ReadAllText( "htmlBase.html", Encoding.UTF8 );
 			viewerBaseHTMLString = @"
 				<!DOCTYPE html>
 <html lang='ko'>

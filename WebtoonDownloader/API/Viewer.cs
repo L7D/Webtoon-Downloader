@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace WebtoonDownloader.API
 {
@@ -24,7 +21,6 @@ namespace WebtoonDownloader.API
 			{
 				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo( "en-US" );
 
-				//http://comic.naver.com/webtoon/list.nhn?titleId=686029&weekday=wed
 				string[ ] files = Directory.GetFiles( directory + @"\이미지", "image_*.jpg", SearchOption.TopDirectoryOnly );
 				StringBuilder htmlSB = new StringBuilder( GlobalVar.viewerBaseHTMLString );
 

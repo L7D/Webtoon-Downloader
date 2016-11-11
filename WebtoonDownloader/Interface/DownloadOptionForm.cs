@@ -90,7 +90,6 @@ namespace WebtoonDownloader.Interface
 			this.loadingStatusLabel.Visible = true;
 
 			this.searchTextBox.Enabled = false;
-			//this.webtoonPageList.Enabled = false;
 		}
 
 		private void StopLoadingMode( )
@@ -100,7 +99,6 @@ namespace WebtoonDownloader.Interface
 			this.loadingStatusLabel.Visible = false;
 
 			this.searchTextBox.Enabled = true;
-			//this.webtoonPageList.Enabled = true;
 		}
 
 		private void PageSearch( string searchText )
@@ -111,7 +109,6 @@ namespace WebtoonDownloader.Interface
 
 			if ( searchText == "" )
 			{
-
 				for ( int i = 0; i < webtoonPageList.Controls.Count; i++ )
 				{
 					WebtoonListChild webtoonListChild = ( WebtoonListChild ) webtoonPageList.Controls[ i ];

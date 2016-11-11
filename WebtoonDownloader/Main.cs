@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WebtoonDownloader.API;
 using WebtoonDownloader.Interface;
@@ -60,7 +53,6 @@ namespace WebtoonDownloader
 
 						webtoonDescriptionLabel.Location = new Point( 9, 155 );
 						webtoonDescriptionLabel.Size = new Size( 583, 60 );
-						//webtoonDescriptionLabel.TextAlign = ContentAlignment.TopCenter;
 
 						thumbnailImage.Visible = false;
 						thumbnailImage.Location = new Point( 7, 60 );
@@ -76,7 +68,7 @@ namespace WebtoonDownloader
 
 						URL_TEXTBOX.Enabled = true;
 						URL_TEXTBOX.Visible = true;
-						URL_TEXTBOX.Text = ""; // 여기 수정 바람
+						URL_TEXTBOX.Text = "";
 						URL_TEXTBOX_TITLELABEL.Visible = true;
 						StatusMessageLabel.Visible = false;
 						StatusMessageLabel.Text = "";
@@ -159,7 +151,6 @@ namespace WebtoonDownloader
 			webtoonTitleLabel.BackColor = Color.FromArgb( 200, 255, 255, 255 );
 			webtoonDescriptionLabel.BackColor = Color.FromArgb( 200, 255, 255, 255 );
 
-
 			Webtoon.StatusMessageLabelSet += Webtoon_StatusMessageLabel_Set;
 			Webtoon.DownloadFinished += Webtoon_DownloadFinished;
 			Webtoon.ErrorMessageCall += Webtoon_ErrorMessageCall;
@@ -169,11 +160,6 @@ namespace WebtoonDownloader
 			UIStatusVar = UIStatus.Idle;
 
 			URL_TEXTBOX.Focus( );
-		}
-
-		private void DownloadOptionEnd_Call( DownloadOptionResult result, object data )
-		{
-
 		}
 
 		private void MINIMIZE_BUTTON_Click( object sender, EventArgs e )
@@ -222,8 +208,6 @@ namespace WebtoonDownloader
 
 		private void Webtoon_StatusMessageLabel_Set( string message )
 		{
-			//this.StatusMessageLabel.Text = message;
-
 			REQUEST_BUTTON.ButtonText = message;
 		}
 
@@ -402,12 +386,7 @@ namespace WebtoonDownloader
 
 		private void Main_Paint( object sender, PaintEventArgs e )
 		{
-			//int w = this.Width, h = this.Height;
 
-			//e.Graphics.DrawLine( lineDrawer, 0, 0, w, 0 ); // Top line drawing
-			//e.Graphics.DrawLine( lineDrawer, 0, 0, 0, h ); // Left line drawing
-			//e.Graphics.DrawLine( lineDrawer, w - lineDrawer.Width, 0, w - lineDrawer.Width, h ); // Right line drawing
-			//e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
 		}
 
 		private void thumbnailImage_Paint( object sender, PaintEventArgs e )
