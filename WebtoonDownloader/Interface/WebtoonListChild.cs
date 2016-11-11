@@ -15,7 +15,7 @@ namespace WebtoonDownloader.Interface
 	{
 		public WebtoonPageInformation info;
 		public bool blocked = false;
-		private SolidBrush BackgroundDrawer = new SolidBrush( Color.FromArgb( 0, Color.Orange ) );
+		private SolidBrush BackgroundDrawer = new SolidBrush( Color.FromArgb( 0, Color.LightCoral ) );
 		private Timer highlightTimer;
 		private Timer blockAnimationTimer;
 		private Pen lineDrawer = new Pen( GlobalVar.outlineColor )
@@ -54,7 +54,7 @@ namespace WebtoonDownloader.Interface
 				blockAnimationTimer = null;
 			}
 
-			BackgroundDrawer = new SolidBrush( Color.FromArgb( BackgroundDrawer.Color.A, Color.Orange ) );
+			BackgroundDrawer = new SolidBrush( Color.FromArgb( BackgroundDrawer.Color.A, Color.LightCoral ) );
 
 			blockAnimationTimer = new Timer( )
 			{
@@ -166,13 +166,13 @@ namespace WebtoonDownloader.Interface
 				toolTipControl.SetToolTip( blockButton, "이 화를 다운로드에 포함시킵니다." );
 
 				this.blockButton.EnterStateBackgroundColor = System.Drawing.Color.DarkGray;
-				this.blockButton.NormalStateBackgroundColor = System.Drawing.Color.DarkOrange;
+				this.blockButton.NormalStateBackgroundColor = System.Drawing.Color.LightCoral;
 			}
 			else
 			{
 				toolTipControl.SetToolTip( blockButton, "이 화를 다운로드에서 제외시킵니다." );
 
-				this.blockButton.EnterStateBackgroundColor = System.Drawing.Color.DarkOrange;
+				this.blockButton.EnterStateBackgroundColor = System.Drawing.Color.LightCoral;
 				this.blockButton.NormalStateBackgroundColor = System.Drawing.Color.DarkGray;
 			}
 		}

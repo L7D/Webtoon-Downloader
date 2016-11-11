@@ -46,10 +46,10 @@
 			// webtoonTitleLabel
 			// 
 			this.webtoonTitleLabel.BackColor = System.Drawing.Color.Transparent;
-			this.webtoonTitleLabel.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.webtoonTitleLabel.Location = new System.Drawing.Point(163, 5);
+			this.webtoonTitleLabel.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.webtoonTitleLabel.Location = new System.Drawing.Point(151, 5);
 			this.webtoonTitleLabel.Name = "webtoonTitleLabel";
-			this.webtoonTitleLabel.Size = new System.Drawing.Size(364, 30);
+			this.webtoonTitleLabel.Size = new System.Drawing.Size(376, 30);
 			this.webtoonTitleLabel.TabIndex = 6;
 			this.webtoonTitleLabel.Text = "웹툰 화";
 			this.webtoonTitleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -58,7 +58,7 @@
 			// 
 			this.webtoonUploadDateLabel.BackColor = System.Drawing.Color.Transparent;
 			this.webtoonUploadDateLabel.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.webtoonUploadDateLabel.Location = new System.Drawing.Point(220, 65);
+			this.webtoonUploadDateLabel.Location = new System.Drawing.Point(207, 67);
 			this.webtoonUploadDateLabel.Name = "webtoonUploadDateLabel";
 			this.webtoonUploadDateLabel.Size = new System.Drawing.Size(90, 20);
 			this.webtoonUploadDateLabel.TabIndex = 16;
@@ -69,7 +69,7 @@
 			// 
 			this.webtoonStarRateLabel.BackColor = System.Drawing.Color.Transparent;
 			this.webtoonStarRateLabel.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.webtoonStarRateLabel.Location = new System.Drawing.Point(164, 65);
+			this.webtoonStarRateLabel.Location = new System.Drawing.Point(151, 67);
 			this.webtoonStarRateLabel.Name = "webtoonStarRateLabel";
 			this.webtoonStarRateLabel.Size = new System.Drawing.Size(50, 20);
 			this.webtoonStarRateLabel.TabIndex = 15;
@@ -81,7 +81,7 @@
 			this.blockButton.AnimationLerpP = 0.8F;
 			this.blockButton.BackColor = System.Drawing.Color.Transparent;
 			this.blockButton.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.blockButton.EnterStateBackgroundColor = System.Drawing.Color.DarkOrange;
+			this.blockButton.EnterStateBackgroundColor = System.Drawing.Color.LightCoral;
 			this.blockButton.Image = global::WebtoonDownloader.Properties.Resources.block;
 			this.blockButton.Location = new System.Drawing.Point(487, 47);
 			this.blockButton.Name = "blockButton";
@@ -96,7 +96,7 @@
 			// 
 			this.uploadDateImage.BackColor = System.Drawing.Color.Transparent;
 			this.uploadDateImage.Image = global::WebtoonDownloader.Properties.Resources.date;
-			this.uploadDateImage.Location = new System.Drawing.Point(255, 40);
+			this.uploadDateImage.Location = new System.Drawing.Point(242, 43);
 			this.uploadDateImage.Name = "uploadDateImage";
 			this.uploadDateImage.Size = new System.Drawing.Size(20, 20);
 			this.uploadDateImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -107,7 +107,7 @@
 			// 
 			this.starImage.BackColor = System.Drawing.Color.Transparent;
 			this.starImage.Image = global::WebtoonDownloader.Properties.Resources.star;
-			this.starImage.Location = new System.Drawing.Point(179, 40);
+			this.starImage.Location = new System.Drawing.Point(166, 43);
 			this.starImage.Name = "starImage";
 			this.starImage.Size = new System.Drawing.Size(20, 20);
 			this.starImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -119,7 +119,7 @@
 			this.thumbnailImage.BackColor = System.Drawing.Color.Transparent;
 			this.thumbnailImage.Location = new System.Drawing.Point(5, 5);
 			this.thumbnailImage.Name = "thumbnailImage";
-			this.thumbnailImage.Size = new System.Drawing.Size(152, 80);
+			this.thumbnailImage.Size = new System.Drawing.Size(140, 80);
 			this.thumbnailImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.thumbnailImage.TabIndex = 0;
 			this.thumbnailImage.TabStop = false;
