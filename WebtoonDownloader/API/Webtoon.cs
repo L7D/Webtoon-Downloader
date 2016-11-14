@@ -68,6 +68,34 @@ namespace WebtoonDownloader
 		public static event Action<float> DownloadProgressChanged;
 		public static Thread DownloadThread = null;
 
+
+		public static string FixURL( string url )
+		{
+			try
+			{
+				Uri newURI = new Uri( url );
+
+				System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString( newURI.Query );
+
+				if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) )
+				{
+					if ( url.IndexOf( "page" ) > 0 ) // page 파라메터가 있으면
+					{
+						query.Remove( "page" ); // 지움
+					}
+
+					return newURI.GetLeftPart( UriPartial.Path ) + "?" + query.ToString( );
+				}
+
+				return "";
+			}
+			catch ( UriFormatException )
+			{
+				return "";
+			}
+		}
+
+		/*
 		public static bool IsValidURL( string url )
 		{
 			try
@@ -88,6 +116,7 @@ namespace WebtoonDownloader
 				return false;
 			}
 		}
+		*/
 
 		// 해당 웹툰의 최대 리스트 페이지를 반환.
 		public static int GetListMaxPage( string url )
@@ -334,7 +363,7 @@ namespace WebtoonDownloader
 			}
 		}
 
-		private static void DownloadImagesTargetURL( WebtoonPageInformation info )
+		private static async void DownloadImagesTargetURL( WebtoonPageInformation info )
 		{
 			// 오류
 			// 연애혁명 - 130. said, sad <남유리> 에피소드에서 'ArgumentException : 경로에 잘못된 문자가 있습니다' 예외가 발생
@@ -355,8 +384,8 @@ namespace WebtoonDownloader
 
 			List<string> webtoonImages = new List<string>( );
 
-			try
-			{
+			//try
+			//{
 				HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( "http://comic.naver.com" + info.url );
 				request.Method = "GET";
 
@@ -401,7 +430,10 @@ namespace WebtoonDownloader
 									Thread.Sleep( 30 );
 							}
 
-							ImageMerge.Merge( thisDir );
+							await Task.Run( new Action( delegate ( )
+							{
+								ImageMerge.Merge( thisDir );
+							} ) );
 
 							switch ( Viewer.Create( thisDir, info ) )
 							{
@@ -424,17 +456,19 @@ namespace WebtoonDownloader
 						}
 					}
 				}
-			}
-			catch ( Exception ex )
-			{
-				Utility.WriteErrorLog( ex.Message, "Exception" );
-				ErrorMessageCall.Invoke( "알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
-			}
+			//}
+			//catch ( Exception ex )
+			//{
+			//	Utility.WriteErrorLog( ex.Message, "Exception" );
+			//	ErrorMessageCall.Invoke( "알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
+			//}
 		}
 
 		public static async Task<WebtoonBasicInformation> GetBasicInformation( string url )
 		{
-			if ( Webtoon.IsValidURL( url ) )
+			url = Webtoon.FixURL( url );
+
+			if ( url != "" )
 			{
 				int maxPage = Webtoon.GetListMaxPage( url );
 
@@ -500,7 +534,7 @@ namespace WebtoonDownloader
 										}
 										catch ( IndexOutOfRangeException ) { }
 
-										returnInfo.description = desc.Trim( );
+										returnInfo.description = HttpUtility.HtmlDecode( desc.Trim( ) );
 
 										foreach ( HtmlNode node in document.DocumentNode.SelectNodes( "//meta" ) )
 										{
@@ -584,7 +618,9 @@ namespace WebtoonDownloader
 				{
 					System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo( "en-US" );
 
-					if ( Webtoon.IsValidURL( url ) )
+					url = Webtoon.FixURL( url );
+
+					if ( url != "" )
 					{
 						int maxPage = Webtoon.GetListMaxPage( url );
 

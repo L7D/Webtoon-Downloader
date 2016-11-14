@@ -203,6 +203,8 @@ namespace WebtoonDownloader
 
 		private void Webtoon_ErrorMessageCall( string message )
 		{
+			CheckForIllegalCrossThreadCalls = false;
+
 			NotifyBox.Show( this, "오류", message, NotifyBoxType.OK, NotifyBoxIcon.Error );
 		}
 
@@ -215,10 +217,21 @@ namespace WebtoonDownloader
 		{
 			if ( success )
 			{
+				GC.Collect( 0, GCCollectionMode.Forced ); // 쓰레드가 강제 종료된 후 메모리를 정리하기 위해 GC 강제 실행
+
 				if ( downFinishShutDownCheckBox.Checked )
 				{
 					UIStatusVar = UIStatus.Idle;
-					System.Diagnostics.Process.Start( "shutdown", "/s /f" ); // 시스템 종료
+					//System.Diagnostics.Process.Start( "shutdown", "/s /f /t 60" ); // 시스템 종료
+
+					Win32.InitiateSystemShutdown( "\\\\127.0.0.1",	// 컴퓨터 이름
+						null,			// 종료 전 사용자에게 알릴 메시지
+						60,				// 종료까지 대기 시간
+						false,			// 프로그램 강제 종료 여부(false > 강제 종료)
+						false			// 시스템 종료 후 다시 시작 여부(true > 다시 시작)
+					);
+
+					new ShutdownNotify( ).ShowDialog( );
 
 					return;
 				}
@@ -242,6 +255,8 @@ namespace WebtoonDownloader
 
 		private void Webtoon_DownloadTargetChanged( WebtoonPageInformation info )
 		{
+			CheckForIllegalCrossThreadCalls = false;
+
 			starImage.Visible = true;
 			webtoonStarRateLabel.Visible = true;
 

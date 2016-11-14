@@ -12,8 +12,21 @@ using WebtoonDownloader.API;
 
 namespace WebtoonDownloader.Interface
 {
+	struct WebtoonIndexPage
+	{
+		public int index;
+		public List<WebtoonPageInformation> page;
+
+		public WebtoonIndexPage( int index, List<WebtoonPageInformation> page )
+		{
+			this.index = index;
+			this.page = page;
+		}
+	}
+
 	public partial class DownloadOptionForm : Form
 	{
+		private List<WebtoonIndexPage> indexPages = new List<WebtoonIndexPage>( );
 		private Thread loadThread;
 		private List<WebtoonListChild> temp = new List<WebtoonListChild>( );
 		public event Action<DownloadOptionResult, object> DownloadOptionReturn;
@@ -168,33 +181,88 @@ namespace WebtoonDownloader.Interface
 			}
 		}
 
-		private void DownloadOptionForm_Load( object sender, EventArgs e )
+		private void Webtoon_IndexDivision( )
 		{
-			webtoonTitleLabel.Text = baseInformation.title;
-			webtoonDescriptionLabel.Text = baseInformation.description;
-			webtoonNumLabel.Text = "총 " + baseInformation.totalNum + "개의 화";
-			try
+			int cycle = ( int ) ( baseInformation.pages.Count / 100 );
+
+			if ( baseInformation.pages.Count > 100 ) // 100화 씩 나누기 위해 페이지 배열이 100화 이상인지 확인
 			{
-				webtoonThumbnailImage.Load( baseInformation.thumbnailURL );
+				int currentPageIndex = 1;
+				int currentWebtoonPageIndex = 0;
+
+				indexPages.Clear( );
+
+				for ( int i = 0; i <= cycle; i++ )
+				{
+					if ( i == cycle ) // 마지막 사이클인지 확인
+					{
+						if ( baseInformation.pages.Count % 100 == 0 ) continue; // 남은 파일이 없으면 건너뛰기
+						int remainFiles = baseInformation.pages.Count % 100;
+
+						List<WebtoonPageInformation> pagesLow = new List<WebtoonPageInformation>( );
+
+						for ( int i2 = 0; i2 < remainFiles; i2++ )
+						{
+							pagesLow.Add( baseInformation.pages[ currentWebtoonPageIndex ] );
+
+							currentWebtoonPageIndex++;
+						}
+
+						indexPages.Add( new WebtoonIndexPage( currentPageIndex, pagesLow ) );
+
+						currentPageIndex++;
+						DrawIndexPages( );
+					}
+					else
+					{
+						List<WebtoonPageInformation> pagesLow = new List<WebtoonPageInformation>( );
+
+						for ( int i2 = 0; i2 < 100; i2++ )
+						{
+							pagesLow.Add( baseInformation.pages[ currentWebtoonPageIndex ] );
+
+							currentWebtoonPageIndex++;
+						}
+
+						indexPages.Add( new WebtoonIndexPage( currentPageIndex, pagesLow ) );
+
+						currentPageIndex++;
+						DrawIndexPages( );
+					}
+				}
 			}
-			catch ( Exception )
+			else
 			{
-				webtoonThumbnailImage.Image = null;
+				indexPages.Clear( );
+
+				indexPages.Add( new WebtoonIndexPage( 1, baseInformation.pages ) );
+
+				DrawIndexPages( );
 			}
 
-			DOWNLOAD_BUTTON.Enabled = false;
+			SetPage( 1 );
+		}
 
-			isASCSortMode = true;
-			toolTipControl.SetToolTip( sortSwitchImageButton, "오래된 화 순으로 정렬합니다." );
+		private void SetPage( int page )
+		{
+			webtoonPageList.Controls.Clear( );
+
+			WebtoonIndexPage selectedPage = indexPages[ page - 1 ];
 
 			StartLoadingMode( );
+
+			if ( loadThread != null )
+			{
+				loadThread.Abort( );
+				loadThread = null;
+			}
 
 			loadThread = new Thread( ( ) =>
 			{
 				int count = 0;
 				int y = 0;
 
-				foreach ( WebtoonPageInformation info in baseInformation.pages )
+				foreach ( WebtoonPageInformation info in selectedPage.page )
 				{
 					count++;
 
@@ -206,13 +274,13 @@ namespace WebtoonDownloader.Interface
 						this.Invoke( new Action( ( ) =>
 						{
 							webtoonPageList.Controls.Add( child );
-							loadingStatusLabel.Text = "데이터를 불러오고 있습니다 ... " + ( int ) ( ( ( float ) count / ( float ) baseInformation.pages.Count ) * 100 ) + "%";
+							loadingStatusLabel.Text = "데이터를 불러오고 있습니다 ... " + ( int ) ( ( ( float ) count / ( float ) selectedPage.page.Count ) * 100 ) + "%";
 						} ) );
 					}
 					else
 					{
 						webtoonPageList.Controls.Add( child );
-						loadingStatusLabel.Text = "데이터를 불러오고 있습니다 ... " + ( int ) ( ( ( float ) count / ( float ) baseInformation.pages.Count ) * 100 ) + "%";
+						loadingStatusLabel.Text = "데이터를 불러오고 있습니다 ... " + ( int ) ( ( ( float ) count / ( float ) selectedPage.page.Count ) * 100 ) + "%";
 					}
 
 					y += child.Size.Height + 5;
@@ -230,6 +298,48 @@ namespace WebtoonDownloader.Interface
 			};
 
 			loadThread.Start( );
+		}
+
+		private void DrawIndexPages( )
+		{
+			int x = 0;
+
+			pageIndexList.Controls.Clear( );
+
+			foreach ( WebtoonIndexPage i in indexPages )
+			{
+				WebtoonPageIndexChild child = new WebtoonPageIndexChild( i.index );
+				child.PageClicked += SetPage;
+				child.Location = new Point( x, 0 );
+
+				pageIndexList.Controls.Add( child );
+
+				x += 40;
+			}
+		}
+
+		private void DownloadOptionForm_Load( object sender, EventArgs e )
+		{
+			webtoonTitleLabel.Text = baseInformation.title;
+			webtoonDescriptionLabel.Text = baseInformation.description;
+			webtoonNumLabel.Text = "총 " + baseInformation.totalNum + "개의 화";
+			try
+			{
+				webtoonThumbnailImage.Load( baseInformation.thumbnailURL );
+			}
+			catch ( Exception )
+			{
+				webtoonThumbnailImage.Image = null;
+			}
+
+			DOWNLOAD_BUTTON.Enabled = false;
+
+			baseInformation.pages.Reverse( );
+
+			isASCSortMode = false;
+			toolTipControl.SetToolTip( sortSwitchImageButton, "최근 화 순으로 정렬합니다." );
+
+			Webtoon_IndexDivision( );
 		}
 
 		private void searchTextBox_TextChanged( object sender, EventArgs e )
@@ -362,6 +472,13 @@ namespace WebtoonDownloader.Interface
 		private void DownloadOptionForm_FormClosed( object sender, FormClosedEventArgs e )
 		{
 			loadThread.Abort( );
+		}
+
+		private void pageIndexList_Paint( object sender, PaintEventArgs e )
+		{
+			int w = this.pageIndexList.Width, h = this.pageIndexList.Height;
+
+			e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
 		}
 	}
 }

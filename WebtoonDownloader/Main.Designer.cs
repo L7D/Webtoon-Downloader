@@ -305,7 +305,7 @@ namespace WebtoonDownloader
 			// 
 			this.downFinishShutDownCheckBox.AutoSize = true;
 			this.downFinishShutDownCheckBox.BackColor = System.Drawing.Color.Transparent;
-			this.downFinishShutDownCheckBox.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.downFinishShutDownCheckBox.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
 			this.downFinishShutDownCheckBox.Location = new System.Drawing.Point(462, 262);
 			this.downFinishShutDownCheckBox.Name = "downFinishShutDownCheckBox";
 			this.downFinishShutDownCheckBox.Size = new System.Drawing.Size(126, 17);

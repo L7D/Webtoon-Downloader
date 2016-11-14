@@ -31,7 +31,6 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadOptionForm));
 			this.APP_TITLE_BAR = new System.Windows.Forms.Panel();
-			this.APP_LOGO = new System.Windows.Forms.PictureBox();
 			this.fastDownloadModeTitle = new System.Windows.Forms.Label();
 			this.webtoonPageList = new System.Windows.Forms.Panel();
 			this.loadingStatusLabel = new System.Windows.Forms.Label();
@@ -39,18 +38,20 @@
 			this.searchTitleLabel = new System.Windows.Forms.Label();
 			this.toolTipControl = new System.Windows.Forms.ToolTip(this.components);
 			this.fastDownloadModeDesc = new System.Windows.Forms.Label();
-			this.webtoonThumbnailImage = new System.Windows.Forms.PictureBox();
 			this.webtoonDescriptionLabel = new System.Windows.Forms.Label();
 			this.webtoonTitleLabel = new System.Windows.Forms.Label();
 			this.webtoonNumLabel = new System.Windows.Forms.Label();
+			this.pageIndexList = new System.Windows.Forms.Panel();
+			this.webtoonThumbnailImage = new System.Windows.Forms.PictureBox();
+			this.APP_LOGO = new System.Windows.Forms.PictureBox();
 			this.fastDownloadModeSwitch = new WebtoonDownloader.Interface.FlatImageButton();
 			this.DOWNLOAD_BUTTON = new WebtoonDownloader.Interface.FlatButton();
 			this.sortSwitchImageButton = new WebtoonDownloader.Interface.FlatImageButton();
 			this.CLOSE_BUTTON = new WebtoonDownloader.Interface.FlatImageButton();
 			this.APP_TITLE = new WebtoonDownloader.Interface.CustomLabel();
 			this.APP_TITLE_BAR.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.webtoonThumbnailImage)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.fastDownloadModeSwitch)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.sortSwitchImageButton)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).BeginInit();
@@ -70,18 +71,6 @@
 			this.APP_TITLE_BAR.MouseDown += new System.Windows.Forms.MouseEventHandler(this.APP_TITLE_BAR_MouseDown);
 			this.APP_TITLE_BAR.MouseMove += new System.Windows.Forms.MouseEventHandler(this.APP_TITLE_BAR_MouseMove);
 			// 
-			// APP_LOGO
-			// 
-			this.APP_LOGO.BackColor = System.Drawing.Color.Transparent;
-			this.APP_LOGO.Cursor = System.Windows.Forms.Cursors.Default;
-			this.APP_LOGO.Image = global::WebtoonDownloader.Properties.Resources.APP_ICON_30x30;
-			this.APP_LOGO.Location = new System.Drawing.Point(5, 5);
-			this.APP_LOGO.Name = "APP_LOGO";
-			this.APP_LOGO.Size = new System.Drawing.Size(30, 30);
-			this.APP_LOGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.APP_LOGO.TabIndex = 3;
-			this.APP_LOGO.TabStop = false;
-			// 
 			// fastDownloadModeTitle
 			// 
 			this.fastDownloadModeTitle.AutoSize = true;
@@ -99,7 +88,7 @@
 			this.webtoonPageList.BackColor = System.Drawing.Color.Transparent;
 			this.webtoonPageList.Location = new System.Drawing.Point(12, 82);
 			this.webtoonPageList.Name = "webtoonPageList";
-			this.webtoonPageList.Size = new System.Drawing.Size(550, 545);
+			this.webtoonPageList.Size = new System.Drawing.Size(550, 510);
 			this.webtoonPageList.TabIndex = 3;
 			// 
 			// loadingStatusLabel
@@ -152,16 +141,6 @@
 			this.fastDownloadModeDesc.Text = "고속 다운로드 모드는 파일 안정성을 위한 대기시간을 모두 없애 다운로드 속도를 가속시킵니다.";
 			this.fastDownloadModeDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// webtoonThumbnailImage
-			// 
-			this.webtoonThumbnailImage.BackColor = System.Drawing.Color.Transparent;
-			this.webtoonThumbnailImage.Location = new System.Drawing.Point(568, 82);
-			this.webtoonThumbnailImage.Name = "webtoonThumbnailImage";
-			this.webtoonThumbnailImage.Size = new System.Drawing.Size(220, 202);
-			this.webtoonThumbnailImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.webtoonThumbnailImage.TabIndex = 13;
-			this.webtoonThumbnailImage.TabStop = false;
-			// 
 			// webtoonDescriptionLabel
 			// 
 			this.webtoonDescriptionLabel.BackColor = System.Drawing.Color.Transparent;
@@ -194,6 +173,36 @@
 			this.webtoonNumLabel.TabIndex = 16;
 			this.webtoonNumLabel.Text = "총 0개의 화";
 			this.webtoonNumLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// pageIndexList
+			// 
+			this.pageIndexList.Location = new System.Drawing.Point(12, 600);
+			this.pageIndexList.Name = "pageIndexList";
+			this.pageIndexList.Size = new System.Drawing.Size(550, 31);
+			this.pageIndexList.TabIndex = 0;
+			this.pageIndexList.Paint += new System.Windows.Forms.PaintEventHandler(this.pageIndexList_Paint);
+			// 
+			// webtoonThumbnailImage
+			// 
+			this.webtoonThumbnailImage.BackColor = System.Drawing.Color.Transparent;
+			this.webtoonThumbnailImage.Location = new System.Drawing.Point(568, 82);
+			this.webtoonThumbnailImage.Name = "webtoonThumbnailImage";
+			this.webtoonThumbnailImage.Size = new System.Drawing.Size(220, 202);
+			this.webtoonThumbnailImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.webtoonThumbnailImage.TabIndex = 13;
+			this.webtoonThumbnailImage.TabStop = false;
+			// 
+			// APP_LOGO
+			// 
+			this.APP_LOGO.BackColor = System.Drawing.Color.Transparent;
+			this.APP_LOGO.Cursor = System.Windows.Forms.Cursors.Default;
+			this.APP_LOGO.Image = global::WebtoonDownloader.Properties.Resources.APP_ICON_30x30;
+			this.APP_LOGO.Location = new System.Drawing.Point(5, 5);
+			this.APP_LOGO.Name = "APP_LOGO";
+			this.APP_LOGO.Size = new System.Drawing.Size(30, 30);
+			this.APP_LOGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.APP_LOGO.TabIndex = 3;
+			this.APP_LOGO.TabStop = false;
 			// 
 			// fastDownloadModeSwitch
 			// 
@@ -280,6 +289,7 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(800, 700);
+			this.Controls.Add(this.pageIndexList);
 			this.Controls.Add(this.webtoonNumLabel);
 			this.Controls.Add(this.webtoonDescriptionLabel);
 			this.Controls.Add(this.webtoonThumbnailImage);
@@ -305,8 +315,8 @@
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.DownloadOptionForm_Paint);
 			this.APP_TITLE_BAR.ResumeLayout(false);
 			this.APP_TITLE_BAR.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.webtoonThumbnailImage)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.fastDownloadModeSwitch)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sortSwitchImageButton)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).EndInit();
@@ -335,5 +345,6 @@
 		private System.Windows.Forms.Label webtoonDescriptionLabel;
 		private System.Windows.Forms.Label webtoonTitleLabel;
 		private System.Windows.Forms.Label webtoonNumLabel;
+		private System.Windows.Forms.Panel pageIndexList;
 	}
 }

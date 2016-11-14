@@ -56,6 +56,7 @@
     <Compile Include="API\NotifyBox.cs" />
     <Compile Include="API\Utility.cs" />
     <Compile Include="API\Viewer.cs" />
+    <Compile Include="API\Win32.cs" />
     <Compile Include="GlobalVar.cs" />
     <Compile Include="Interface\CopyrightAgree.cs">
       <SubType>Form</SubType>
@@ -84,11 +85,23 @@
     <Compile Include="Interface\NotifyBoxInterface.Designer.cs">
       <DependentUpon>NotifyBoxInterface.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interface\ShutdownNotify.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\ShutdownNotify.Designer.cs">
+      <DependentUpon>ShutdownNotify.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\WebtoonListChild.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Interface\WebtoonListChild.Designer.cs">
       <DependentUpon>WebtoonListChild.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\WebtoonPageIndexChild.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\WebtoonPageIndexChild.Designer.cs">
+      <DependentUpon>WebtoonPageIndexChild.cs</DependentUpon>
     </Compile>
     <Compile Include="Interface\Welcome.cs">
       <SubType>Form</SubType>
@@ -117,8 +130,14 @@
     <EmbeddedResource Include="Interface\NotifyBoxInterface.resx">
       <DependentUpon>NotifyBoxInterface.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Interface\ShutdownNotify.resx">
+      <DependentUpon>ShutdownNotify.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\WebtoonListChild.resx">
       <DependentUpon>WebtoonListChild.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\WebtoonPageIndexChild.resx">
+      <DependentUpon>WebtoonPageIndexChild.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interface\Welcome.resx">
       <DependentUpon>Welcome.cs</DependentUpon>
