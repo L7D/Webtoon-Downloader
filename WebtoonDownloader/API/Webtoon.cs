@@ -188,7 +188,6 @@ namespace WebtoonDownloader
 			catch ( ThreadAbortException )
 			{
 				GC.Collect( 0, GCCollectionMode.Forced ); // 쓰레드가 강제 종료된 후 메모리를 정리하기 위해 GC 강제 실행
-														  //Utility.WriteErrorLog( "GC collected.", "ThreadAbortException" );
 			}
 			catch ( Exception ex )
 			{
@@ -282,6 +281,11 @@ namespace WebtoonDownloader
 		{
 			List<WebtoonSearchResult> result = new List<WebtoonSearchResult>( );
 
+			// *추가 사항*
+			// oz 뷰어 사용한 애니메이션 웹툰 예외처리
+			// bgm 있는 웹툰일 경우 같이 다운로드 (확실치 않음)
+			// 미성년자 관람 불가 웹툰 로그인 폼 띄워서 인증
+
 			try
 			{
 				HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( url );
@@ -328,6 +332,7 @@ namespace WebtoonDownloader
 														}
 														else if ( i4.OriginalName == "span" && i4.GetAttributeValue( "class", "" ) == "mark_adult" ) // 19금 마크가 있으면 미성년자 관람 불가 웹툰
 														{
+															// 으허어허어헝ㅎ 안댕 19금이라니
 															data.adultWebtoon = true;
 														}
 													}
