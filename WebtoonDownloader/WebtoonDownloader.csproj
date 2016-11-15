@@ -103,6 +103,18 @@
     <Compile Include="Interface\WebtoonPageIndexChild.Designer.cs">
       <DependentUpon>WebtoonPageIndexChild.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interface\WebtoonSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\WebtoonSearch.Designer.cs">
+      <DependentUpon>WebtoonSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\WebtoonSearchListChild.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Interface\WebtoonSearchListChild.Designer.cs">
+      <DependentUpon>WebtoonSearchListChild.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\Welcome.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +151,12 @@
     <EmbeddedResource Include="Interface\WebtoonPageIndexChild.resx">
       <DependentUpon>WebtoonPageIndexChild.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Interface\WebtoonSearch.resx">
+      <DependentUpon>WebtoonSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\WebtoonSearchListChild.resx">
+      <DependentUpon>WebtoonSearchListChild.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\Welcome.resx">
       <DependentUpon>Welcome.cs</DependentUpon>
     </EmbeddedResource>
@@ -170,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="APP_ICON.ico" />
+    <None Include="Resources\searchIcon.png" />
     <None Include="Resources\fastDownload.png" />
     <None Include="Resources\lawWarning.png" />
     <None Include="Resources\block.png" />

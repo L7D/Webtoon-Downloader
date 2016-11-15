@@ -457,13 +457,15 @@ namespace WebtoonDownloader.Interface
 
 			if ( Webtoon.FastDownloadMode )
 			{
-				fastDownloadModeTitle.Text = "고속 다운로드 모드 활성화 됨";
+				toolTipControl.SetToolTip( fastDownloadModeSwitch, "고속 다운로드 모드 사용 중" + Environment.NewLine + "고속 다운로드 모드는 안정성을 위한 대기시간을 모두 없애 다운로드 속도를 가속시킵니다, 속도는 빨라지지만 불안정해질 수 있습니다." );
+
 				fastDownloadModeSwitch.EnterStateBackgroundColor = Color.DimGray;
 				fastDownloadModeSwitch.NormalStateBackgroundColor = Color.MediumAquamarine;
 			}
 			else
 			{
-				fastDownloadModeTitle.Text = "고속 다운로드 모드 비 활성화 됨";
+				toolTipControl.SetToolTip( fastDownloadModeSwitch, "고속 다운로드 모드 사용 가능" + Environment.NewLine + "고속 다운로드 모드는 안정성을 위한 대기시간을 모두 없애 다운로드 속도를 가속시킵니다, 속도는 빨라지지만 불안정해질 수 있습니다." );
+
 				fastDownloadModeSwitch.EnterStateBackgroundColor = Color.MediumAquamarine;
 				fastDownloadModeSwitch.NormalStateBackgroundColor = Color.DimGray;
 			}
@@ -471,13 +473,24 @@ namespace WebtoonDownloader.Interface
 
 		private void DownloadOptionForm_FormClosed( object sender, FormClosedEventArgs e )
 		{
-			loadThread.Abort( );
+			if ( loadThread != null )
+				loadThread.Abort( );
 		}
 
 		private void pageIndexList_Paint( object sender, PaintEventArgs e )
 		{
 			int w = this.pageIndexList.Width, h = this.pageIndexList.Height;
 
+			e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
+		}
+
+		private void webtoonThumbnailImage_Paint( object sender, PaintEventArgs e )
+		{
+			int w = this.webtoonThumbnailImage.Width, h = this.webtoonThumbnailImage.Height;
+
+			e.Graphics.DrawLine( lineDrawer, 0, 0, w, 0 ); // Top line drawing
+			e.Graphics.DrawLine( lineDrawer, 0, 0, 0, h ); // Left line drawing
+			e.Graphics.DrawLine( lineDrawer, w - lineDrawer.Width, 0, w - lineDrawer.Width, h ); // Right line drawing
 			e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
 		}
 	}

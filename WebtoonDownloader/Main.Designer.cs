@@ -36,11 +36,9 @@ namespace WebtoonDownloader
 			this.CLOSE_BUTTON = new WebtoonDownloader.Interface.FlatImageButton();
 			this.APP_LOGO = new System.Windows.Forms.PictureBox();
 			this.APP_TITLE = new WebtoonDownloader.Interface.CustomLabel();
-			this.URL_TEXTBOX = new System.Windows.Forms.TextBox();
-			this.StatusMessageLabel = new System.Windows.Forms.Label();
+			this.searchButton = new WebtoonDownloader.Interface.FlatButton();
 			this.webtoonTitleLabel = new System.Windows.Forms.Label();
 			this.webtoonDescriptionLabel = new System.Windows.Forms.Label();
-			this.URL_TEXTBOX_TITLELABEL = new System.Windows.Forms.Label();
 			this.webtoonStarRateLabel = new System.Windows.Forms.Label();
 			this.webtoonUploadDateLabel = new System.Windows.Forms.Label();
 			this.uploadDateImage = new System.Windows.Forms.PictureBox();
@@ -133,32 +131,29 @@ namespace WebtoonDownloader
 			this.APP_TITLE.Text = "웹툰 다운로더";
 			this.APP_TITLE.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
 			// 
-			// URL_TEXTBOX
+			// searchButton
 			// 
-			this.URL_TEXTBOX.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.URL_TEXTBOX.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.URL_TEXTBOX.Location = new System.Drawing.Point(68, 285);
-			this.URL_TEXTBOX.Name = "URL_TEXTBOX";
-			this.URL_TEXTBOX.Size = new System.Drawing.Size(304, 23);
-			this.URL_TEXTBOX.TabIndex = 1;
-			this.URL_TEXTBOX.Text = "http://comic.naver.com/webtoon/list.nhn?titleId=570503&weekday=thu";
-			// 
-			// StatusMessageLabel
-			// 
-			this.StatusMessageLabel.BackColor = System.Drawing.Color.Transparent;
-			this.StatusMessageLabel.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.StatusMessageLabel.Location = new System.Drawing.Point(6, 256);
-			this.StatusMessageLabel.Name = "StatusMessageLabel";
-			this.StatusMessageLabel.Size = new System.Drawing.Size(406, 23);
-			this.StatusMessageLabel.TabIndex = 3;
-			this.StatusMessageLabel.Text = "ㅁㄴㅇㅁㄴㅇㅁㄴㅇㄴ";
-			this.StatusMessageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.StatusMessageLabel.Visible = false;
+			this.searchButton.AnimationLerpP = 0.8F;
+			this.searchButton.BackColor = System.Drawing.Color.Transparent;
+			this.searchButton.ButtonText = "웹툰 찾아보기";
+			this.searchButton.ButtonTextColor = System.Drawing.Color.Black;
+			this.searchButton.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.searchButton.EnterStateBackgroundColor = System.Drawing.Color.Gainsboro;
+			this.searchButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.searchButton.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.searchButton.Location = new System.Drawing.Point(150, 258);
+			this.searchButton.Name = "searchButton";
+			this.searchButton.NormalStateBackgroundColor = System.Drawing.Color.WhiteSmoke;
+			this.searchButton.Size = new System.Drawing.Size(300, 50);
+			this.searchButton.TabIndex = 15;
+			this.searchButton.Text = "웹툰 찾아보기";
+			this.searchButton.UseVisualStyleBackColor = false;
+			this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
 			// 
 			// webtoonTitleLabel
 			// 
 			this.webtoonTitleLabel.BackColor = System.Drawing.Color.Transparent;
-			this.webtoonTitleLabel.Font = new System.Drawing.Font("맑은 고딕", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.webtoonTitleLabel.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
 			this.webtoonTitleLabel.Location = new System.Drawing.Point(9, 120);
 			this.webtoonTitleLabel.Name = "webtoonTitleLabel";
 			this.webtoonTitleLabel.Size = new System.Drawing.Size(583, 30);
@@ -174,18 +169,8 @@ namespace WebtoonDownloader
 			this.webtoonDescriptionLabel.Name = "webtoonDescriptionLabel";
 			this.webtoonDescriptionLabel.Size = new System.Drawing.Size(583, 60);
 			this.webtoonDescriptionLabel.TabIndex = 6;
-			this.webtoonDescriptionLabel.Text = "다운받으실 웹툰의 URL을 입력하세요.";
+			this.webtoonDescriptionLabel.Text = "다운로드 받으실 웹툰을 찾아보세요.";
 			this.webtoonDescriptionLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// URL_TEXTBOX_TITLELABEL
-			// 
-			this.URL_TEXTBOX_TITLELABEL.AutoSize = true;
-			this.URL_TEXTBOX_TITLELABEL.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.URL_TEXTBOX_TITLELABEL.Location = new System.Drawing.Point(6, 289);
-			this.URL_TEXTBOX_TITLELABEL.Name = "URL_TEXTBOX_TITLELABEL";
-			this.URL_TEXTBOX_TITLELABEL.Size = new System.Drawing.Size(59, 15);
-			this.URL_TEXTBOX_TITLELABEL.TabIndex = 8;
-			this.URL_TEXTBOX_TITLELABEL.Text = "웹툰 링크";
 			// 
 			// webtoonStarRateLabel
 			// 
@@ -245,10 +230,10 @@ namespace WebtoonDownloader
 			// backgroundImage
 			// 
 			this.backgroundImage.BackColor = System.Drawing.Color.Transparent;
-			this.backgroundImage.Image = global::WebtoonDownloader.Properties.Resources.background;
 			this.backgroundImage.Location = new System.Drawing.Point(0, 0);
 			this.backgroundImage.Name = "backgroundImage";
 			this.backgroundImage.Size = new System.Drawing.Size(600, 320);
+			this.backgroundImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.backgroundImage.TabIndex = 16;
 			this.backgroundImage.TabStop = false;
 			this.backgroundImage.Paint += new System.Windows.Forms.PaintEventHandler(this.backgroundImage_Paint);
@@ -319,6 +304,7 @@ namespace WebtoonDownloader
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
 			this.ClientSize = new System.Drawing.Size(600, 320);
+			this.Controls.Add(this.searchButton);
 			this.Controls.Add(this.downFinishShutDownCheckBox);
 			this.Controls.Add(this.CANCEL_BUTTON);
 			this.Controls.Add(this.REQUEST_BUTTON);
@@ -326,13 +312,10 @@ namespace WebtoonDownloader
 			this.Controls.Add(this.webtoonUploadDateLabel);
 			this.Controls.Add(this.webtoonStarRateLabel);
 			this.Controls.Add(this.starImage);
-			this.Controls.Add(this.URL_TEXTBOX_TITLELABEL);
 			this.Controls.Add(this.downloadProgress);
 			this.Controls.Add(this.webtoonDescriptionLabel);
 			this.Controls.Add(this.webtoonTitleLabel);
 			this.Controls.Add(this.thumbnailImage);
-			this.Controls.Add(this.StatusMessageLabel);
-			this.Controls.Add(this.URL_TEXTBOX);
 			this.Controls.Add(this.APP_TITLE_BAR);
 			this.Controls.Add(this.backgroundImage);
 			this.DoubleBuffered = true;
@@ -361,14 +344,11 @@ namespace WebtoonDownloader
 
 		private System.Windows.Forms.Panel APP_TITLE_BAR;
 		private CustomLabel APP_TITLE;
-		private System.Windows.Forms.TextBox URL_TEXTBOX;
-		private System.Windows.Forms.Label StatusMessageLabel;
 		private System.Windows.Forms.PictureBox thumbnailImage;
 		private System.Windows.Forms.Label webtoonTitleLabel;
 		private System.Windows.Forms.Label webtoonDescriptionLabel;
 		private FlatProgressBar downloadProgress;
 		private System.Windows.Forms.PictureBox APP_LOGO;
-		private System.Windows.Forms.Label URL_TEXTBOX_TITLELABEL;
 		private System.Windows.Forms.PictureBox starImage;
 		private System.Windows.Forms.Label webtoonStarRateLabel;
 		private System.Windows.Forms.Label webtoonUploadDateLabel;
@@ -379,6 +359,7 @@ namespace WebtoonDownloader
 		private FlatButton CANCEL_BUTTON;
 		private System.Windows.Forms.PictureBox backgroundImage;
 		private System.Windows.Forms.CheckBox downFinishShutDownCheckBox;
+		private FlatButton searchButton;
 	}
 }
 

@@ -13,7 +13,7 @@ namespace WebtoonDownloader.Interface
 {
 	public partial class CopyrightAgree : Form
 	{
-		private bool isKoreanLanguageLicenseVer = false;
+		private bool isKoreanLanguageLicenseVer = true;
 		private Point startPoint;
 		private Pen lineDrawer = new Pen( GlobalVar.outlineColor )
 		{
@@ -87,63 +87,55 @@ namespace WebtoonDownloader.Interface
 		private void CopyrightAgree_Load( object sender, EventArgs e )
 		{
 			// 문법 오류를 막기 위해 원문의 " 를 ###로 수정
-			string engLicenseHTML = @"<!DOCTYPE html>
-			<html lang='en'>
-				<head>
-					<meta http-equiv='Content-type' content='text/html; charset=UTF-8'>
-					<title>MIT License</title>
-					<style>
-						#license-container {
-							padding: 15px;
-							margin: 0px;
-							width: 543px;
-							border: 1px solid #bcbcbc;
-						}
+			string korLicenseHTML = @"<!DOCTYPE html>
+				<html lang='ko'>
+					<head>
+						<meta http-equiv='Content-type' content='text/html; charset=UTF-8'>
+						<title>MIT License</title>
+						<style>
+							#license-container {
+								padding: 15px;
+								margin: 0px;
+								width: 543px;
+								border: 1px solid #bcbcbc;
+							}
 
-						html, body {
-							margin: 0;
-							width: 100%;
-							height: 100%;
-						}
+							html, body {
+								margin: 0;
+								width: 100%;
+								height: 100%;
+							}
 
-						body, table, div, p
-						{
-							text-align: center;
-							font-family: 'Malgun Gothic', '맑은 고딕', 'Arial';
-						}
-					</style>
-				</head>
+							body, table, div, p
+							{
+								text-align: center;
+								font-family: 'Malgun Gothic', '맑은 고딕', 'Arial';
+							}
+						</style>
+					</head>
 	
-				<body>
-					<div id='license-container'>
-						<p style='font-weight: bold; font-size: 15px;'>MIT License</p>
-						<p style='font-weight: bold; font-size: 13px;  margin: -10px'>Copyright (c) 2016 DeveloFOX Studio</p>
-						<p style='font-weight: normal; font-size: 13px;' >
-						Permission is hereby granted, free of charge, to any person obtaining a copy
-						of this software and associated documentation files (the ###Software###), to deal
-						in the Software without restriction, including without limitation the rights
-						to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-						copies of the Software, and to permit persons to whom the Software is
-						furnished to do so, subject to the following conditions:<br><br>
+					<body>
+						<div id='license-container'>
+							<p style='font-weight: bold; font-size: 15px;'>MIT 라이센스</p>
+							<p style='font-weight: bold; font-size: 13px;  margin: -10px'>Copyright (c) 2016 DeveloFOX Studio</p>
+							<p style='font-weight: normal; font-size: 13px;' >
+							이 문서에 기하여, 이 소프트웨어와 이와 연관된 모든 문서(이하 ###소프트웨어###라 한다)의 복제본을 보유하게 되는 모든 사용자에 대하여, 다음의 권한이 무상으로 부여된다.
+							소프트웨어의 사용, 복제, 변경, 통합, 발행, 배포, 재실시, 판매에 대한 제약을 포함한 어떠한 제약 없이 본 소프트웨어를 취급할 수 있으며, 이는 제3자에 대한 소프트웨어 지급 시에도 동일하게 적용된다.
+							단, 이 모든 사항은 아래의 조건하에 적용된다.<br><br>
 
-						<b>The above copyright notice and this permission notice shall be included in all
-						copies or substantial portions of the Software.</b><br><br>
+							<b>위 저작권 표시와 본 허가조항은 소프트웨어의 모든 복제본 혹은 중요한 부분에 포함되어야 한다.</b><br><br>
 
-						THE SOFTWARE IS PROVIDED ###AS IS###, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-						IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-						FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-						<b>THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-						LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-						OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-						SOFTWARE.</b>
-						</p>
-					</div>
-				</body>
-			</html>";
+							소프트웨어는 ###있는 그대로### 제공된다. 판매 적격성, 특정 용도에 대한 적합성, 준법성, 혹은 그 이상의 범위를 포함한 사항에 있어서, 명시적 혹은 암시적인 어떠한 보증도 하지 않는다.
+							<br><br><b>계약, 불법행위 등의 과정상의 개입 여부에 상관없이 어떠한 상황에서도, 본 소프트웨어의 저작자 혹은 저작권자는, 소프트웨어에서 혹은 소프트웨어와 연관되어 발생하는,
+							또한 사용과정 중 혹은 기타 거래 도중 발생하는 어떠한 소유권 청구, 피해, 혹은 기타 다른 법적 책임에 대해서도 책임을 지지 않는다.</b>
+							</p>
+						</div>
+					</body>
+				</html>";
 
 			copyrightHTMLText.DocumentText = "0";
 			copyrightHTMLText.Document.OpenNew( true );
-			copyrightHTMLText.Document.Write( engLicenseHTML.Replace( "###", "\"" ) );
+			copyrightHTMLText.Document.Write( korLicenseHTML.Replace( "###", "\"" ) );
 			copyrightHTMLText.Refresh( );
 
 			AGREE_BUTTON.Enabled = false;

@@ -52,6 +52,44 @@ namespace WebtoonDownloader
 		}
 	}
 
+	public struct WebtoonSearchResult
+	{
+		public string title;
+		public string author;
+		public string url;
+		public int num;
+		public string uploadDate;
+		public string type;
+		public string genre;
+		public string description;
+		public string thumbnailURL;
+
+		public WebtoonSearchResult( string title, string author, string url, int num, string uploadDate, string type, string genre, string description, string thumbnailURL )
+		{
+			this.title = title;
+			this.author = author;
+			this.url = url;
+			this.num = num;
+			this.uploadDate = uploadDate;
+			this.type = type;
+			this.genre = genre;
+			this.description = description;
+			this.thumbnailURL = thumbnailURL;
+		}
+	}
+
+	public struct WebtoonSearchResultDetail
+	{
+		public string description;
+		public string thumbnailURL;
+
+		public WebtoonSearchResultDetail( string description, string thumbnailURL )
+		{
+			this.description = description;
+			this.thumbnailURL = thumbnailURL;
+		}
+	}
+
 	static class Webtoon
 	{
 		public static string BaseDirectory
@@ -68,8 +106,7 @@ namespace WebtoonDownloader
 		public static event Action<float> DownloadProgressChanged;
 		public static Thread DownloadThread = null;
 
-
-		public static string FixURL( string url )
+		public static bool IsValidFixURL( ref string url )
 		{
 			try
 			{
@@ -77,35 +114,10 @@ namespace WebtoonDownloader
 
 				System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString( newURI.Query );
 
-				if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) )
+				if ( newURI.GetLeftPart( UriPartial.Path ).ToLower( ) == "http://comic.naver.com/webtoon/list.nhn" && !string.IsNullOrEmpty( query.Get( "titleId" ) ) )
 				{
-					if ( url.IndexOf( "page" ) > 0 ) // page 파라메터가 있으면
-					{
-						query.Remove( "page" ); // 지움
-					}
+					url = newURI.GetLeftPart( UriPartial.Path ) + "?titleId=" + query.Get( "titleId" );
 
-					return newURI.GetLeftPart( UriPartial.Path ) + "?" + query.ToString( );
-				}
-
-				return "";
-			}
-			catch ( UriFormatException )
-			{
-				return "";
-			}
-		}
-
-		/*
-		public static bool IsValidURL( string url )
-		{
-			try
-			{
-				System.Collections.Specialized.NameValueCollection query = HttpUtility.ParseQueryString( ( new Uri( url ) ).Query );
-
-				if ( url.IndexOf( "page" ) > 0 ) return false; // &page 방지
-
-				if ( !string.IsNullOrEmpty( query.Get( "titleId" ) ) && string.IsNullOrEmpty( query.Get( "page" ) ) )
-				{
 					return true;
 				}
 
@@ -116,7 +128,301 @@ namespace WebtoonDownloader
 				return false;
 			}
 		}
-		*/
+
+		public static int SearchMaxPage( string url )
+		{
+			try
+			{
+				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo( "en-US" );
+
+				url += "&page=999999999"; // 999999999 로 요청할 시 가장 뒤에 페이지로 이동
+
+				HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( url );
+				request.Method = "GET";
+
+				using ( HttpWebResponse response = ( HttpWebResponse ) request.GetResponse( ) )
+				{
+					using ( Stream responseStream = response.GetResponseStream( ) )
+					{
+						using ( StreamReader reader = new StreamReader( responseStream, Encoding.UTF8 ) )
+						{
+							string htmlResult = reader.ReadToEnd( );
+
+							HtmlDocument document = new HtmlDocument( );
+							document.LoadHtml( htmlResult );
+
+							foreach ( HtmlNode i in document.DocumentNode.SelectNodes( "//strong" ) )
+							{
+								if ( i.GetAttributeValue( "class", "" ) == "page" )
+								{
+									foreach ( HtmlNode node2 in i.ChildNodes )
+									{
+										if ( node2.OriginalName == "em" && node2.GetAttributeValue( "class", "" ) == "num_page" )
+										{
+											return int.Parse( node2.InnerText );
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			catch ( WebException ex )
+			{
+				if ( ex.Response == null )
+				{
+					Utility.WriteErrorLog( ex.Message, "WebException" );
+					ErrorMessageCall.Invoke( "귀하의 인터넷 연결을 확인하세요." );
+				}
+				else
+				{
+					Utility.WriteErrorLog( ex.Message, "WebException" );
+					ErrorMessageCall.Invoke( "서버에서 오류가 발생했습니다, " + ex.Response + " 오류 코드를 반환했습니다." );
+				}
+			}
+			catch ( ThreadAbortException )
+			{
+				GC.Collect( 0, GCCollectionMode.Forced ); // 쓰레드가 강제 종료된 후 메모리를 정리하기 위해 GC 강제 실행
+				//Utility.WriteErrorLog( "GC collected.", "ThreadAbortException" );
+			}
+			catch ( Exception ex )
+			{
+				Utility.WriteErrorLog( ex.Message, "Exception" );
+				ErrorMessageCall.Invoke( "알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
+			}
+
+			return -1;
+		}
+
+		private static WebtoonSearchResultDetail SearchDetailRequest( string url )
+		{
+			try
+			{
+				HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( url );
+				request.Method = "GET";
+
+				using ( HttpWebResponse response = ( HttpWebResponse ) request.GetResponse( ) )
+				{
+					using ( Stream responseStream = response.GetResponseStream( ) )
+					{
+						using ( StreamReader reader = new StreamReader( responseStream, Encoding.UTF8 ) )
+						{
+							string htmlResult = reader.ReadToEnd( );
+
+							HtmlDocument document = new HtmlDocument( );
+							document.LoadHtml( htmlResult );
+
+							WebtoonSearchResultDetail returnInfo = new WebtoonSearchResultDetail( );
+
+							int descStart = htmlResult.IndexOf( "meta property=\"og:description\"" );
+
+							string[ ] trashDatas = htmlResult.Substring( descStart, htmlResult.IndexOf( ">", descStart ) - descStart )
+								.Split( new char[ 1 ] { '"' }, StringSplitOptions.RemoveEmptyEntries );
+
+							string desc = "";
+
+							try
+							{
+								for ( int i = 3; i < trashDatas.Length; i++ )
+								{
+									desc += trashDatas[ i ] + Environment.NewLine;
+								}
+							}
+							catch ( IndexOutOfRangeException ) { }
+
+							returnInfo.description = HttpUtility.HtmlDecode( desc.Trim( ) );
+
+							foreach ( HtmlNode node in document.DocumentNode.SelectNodes( "//meta" ) )
+							{
+								switch ( node.GetAttributeValue( "property", "" ) )
+								{
+									case "og:image": // 해당 웹툰 썸네일 이미지
+										returnInfo.thumbnailURL = node.GetAttributeValue( "content", "" ).Trim( );
+										break;
+								}
+							}
+
+							return returnInfo;
+						}
+					}
+				}
+			}
+			catch ( WebException ex )
+			{
+				if ( ex.Response == null )
+				{
+					Utility.WriteErrorLog( ex.Message, "WebException" );
+					ErrorMessageCall.Invoke( "귀하의 인터넷 연결을 확인하세요." );
+				}
+				else
+				{
+					Utility.WriteErrorLog( ex.Message, "WebException" );
+					ErrorMessageCall.Invoke( "서버에서 오류가 발생했습니다, " + ex.Response + " 오류 코드를 반환했습니다." );
+				}
+			}
+			catch ( ThreadAbortException )
+			{
+				GC.Collect( 0, GCCollectionMode.Forced ); // 쓰레드가 강제 종료된 후 메모리를 정리하기 위해 GC 강제 실행
+				//Utility.WriteErrorLog( "GC collected.", "ThreadAbortException" );
+			}
+			catch ( Exception ex )
+			{
+				Utility.WriteErrorLog( ex.Message, "Exception" );
+				ErrorMessageCall.Invoke( "알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
+			}
+
+			return new WebtoonSearchResultDetail( );
+		}
+
+		private static List<WebtoonSearchResult> InternalSearch( string url )
+		{
+			List<WebtoonSearchResult> result = new List<WebtoonSearchResult>( );
+
+			try
+			{
+				HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( url );
+				request.Method = "GET";
+
+				using ( HttpWebResponse response = ( HttpWebResponse ) request.GetResponse( ) )
+				{
+					using ( Stream responseStream = response.GetResponseStream( ) )
+					{
+						using ( StreamReader reader = new StreamReader( responseStream, Encoding.UTF8 ) )
+						{
+							string htmlResult = reader.ReadToEnd( );
+
+							HtmlDocument document = new HtmlDocument( );
+							document.LoadHtml( htmlResult );
+
+							foreach ( HtmlNode i in document.DocumentNode.SelectNodes( "//ul" ) )
+							{
+								if ( i.GetAttributeValue( "class", "" ) == "resultList" )
+								{
+									foreach ( HtmlNode i2 in i.ChildNodes )
+									{
+										if ( i2.OriginalName == "li" )
+										{
+											WebtoonSearchResult data = new WebtoonSearchResult( );
+
+											foreach ( HtmlNode i3 in i2.ChildNodes )
+											{
+												if ( i3.OriginalName == "h5" )
+												{
+													foreach ( HtmlNode i4 in i3.ChildNodes )
+													{
+														if ( i4.OriginalName == "a" )
+														{
+															data.title = i4.InnerText;
+															data.url = "http://comic.naver.com" + i4.GetAttributeValue( "href", "" );
+														}
+														else if ( i4.OriginalName == "img" )
+														{
+															if ( i4.GetAttributeValue( "title", "" ) != "" )
+															{
+																data.type = i4.GetAttributeValue( "title", "" );
+															}
+														}
+													}
+												}
+												else if ( i3.OriginalName == "ul" && i3.GetAttributeValue( "class", "" ) == "resultListItem" )
+												{
+													int emCount = 0;
+
+													foreach ( HtmlNode i4 in i3.ChildNodes )
+													{
+														if ( i4.OriginalName == "li" )
+														{
+															foreach ( HtmlNode i5 in i4.ChildNodes )
+															{
+																if ( i5.OriginalName == "em" )
+																{
+																	switch ( emCount )
+																	{
+																		case 0:
+																			data.author = i5.InnerText.Trim( );
+																			break;
+																		case 1:
+																			data.genre = i5.InnerText;
+																			break;
+																		case 2:
+																			data.num = int.Parse( i5.InnerText.Replace( "회", "" ) );
+																			break;
+																		case 3:
+																			data.uploadDate = i5.InnerText;
+																			break;
+																	}
+
+																	emCount++;
+																}
+															}
+														}
+													}
+												}
+											}
+
+											if ( data.type != "" )
+											{
+												WebtoonSearchResultDetail detailResult = Webtoon.SearchDetailRequest( data.url );
+
+												data.thumbnailURL = detailResult.thumbnailURL;
+												data.description = detailResult.description;
+
+												result.Add( data );
+											}
+										}
+									}
+								}
+							}
+
+							return result;
+						}
+					}
+				}
+			}
+			catch ( WebException ex )
+			{
+				if ( ex.Response == null )
+				{
+					Utility.WriteErrorLog( ex.Message, "WebException" );
+					ErrorMessageCall.Invoke( "귀하의 인터넷 연결을 확인하세요." );
+				}
+				else
+				{
+					Utility.WriteErrorLog( ex.Message, "WebException" );
+					ErrorMessageCall.Invoke( "서버에서 오류가 발생했습니다, " + ex.Response + " 오류 코드를 반환했습니다." );
+				}
+			}
+			catch ( ThreadAbortException )
+			{
+				GC.Collect( 0, GCCollectionMode.Forced ); // 쓰레드가 강제 종료된 후 메모리를 정리하기 위해 GC 강제 실행
+				//Utility.WriteErrorLog( "GC collected.", "ThreadAbortException" );
+			}
+			catch ( Exception ex )
+			{
+				Utility.WriteErrorLog( ex.Message, "Exception" );
+				ErrorMessageCall.Invoke( "알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
+			}
+
+			return result;
+		}
+
+		public static List<WebtoonSearchResult> SearchTitle( string searchString )
+		{
+			string url = "http://comic.naver.com/search.nhn?m=webtoon&keyword=" + HttpUtility.UrlEncode( searchString ) + "&type=title";
+			int maxPage = Webtoon.SearchMaxPage( url );
+
+			List<WebtoonSearchResult> resultPages = new List<WebtoonSearchResult>( );
+
+			for ( int i = 1; i <= maxPage; i++ )
+			{
+				List<WebtoonSearchResult> result = Webtoon.InternalSearch( url + "&page=" + i );
+
+				resultPages = resultPages.Concat( result ).ToList( );
+			}
+
+			return resultPages;
+		}
 
 		// 해당 웹툰의 최대 리스트 페이지를 반환.
 		public static int GetListMaxPage( string url )
@@ -280,7 +586,6 @@ namespace WebtoonDownloader
 														}
 													}
 												}
-
 											}
 
 											pages.Add( info );
@@ -386,76 +691,76 @@ namespace WebtoonDownloader
 
 			//try
 			//{
-				HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( "http://comic.naver.com" + info.url );
-				request.Method = "GET";
+			HttpWebRequest request = ( HttpWebRequest ) WebRequest.Create( "http://comic.naver.com" + info.url );
+			request.Method = "GET";
 
-				// 인증
-				//request.CookieContainer = new CookieContainer( );
-				//foreach ( CookieStruct i in rr )
-				//{
-				//	request.CookieContainer.Add( new Cookie( i.id, i.value, "/", request.Host ) );
-				//}
+			// 인증
+			//request.CookieContainer = new CookieContainer( );
+			//foreach ( CookieStruct i in rr )
+			//{
+			//	request.CookieContainer.Add( new Cookie( i.id, i.value, "/", request.Host ) );
+			//}
 
-				using ( HttpWebResponse response = ( HttpWebResponse ) request.GetResponse( ) )
+			using ( HttpWebResponse response = ( HttpWebResponse ) request.GetResponse( ) )
+			{
+				using ( Stream responseStream = response.GetResponseStream( ) )
 				{
-					using ( Stream responseStream = response.GetResponseStream( ) )
+					using ( StreamReader reader = new StreamReader( responseStream, Encoding.UTF8 ) )
 					{
-						using ( StreamReader reader = new StreamReader( responseStream, Encoding.UTF8 ) )
+						string htmlResult = reader.ReadToEnd( );
+
+						HtmlDocument document = new HtmlDocument( );
+						document.LoadHtml( htmlResult );
+
+						foreach ( HtmlNode node in document.DocumentNode.SelectNodes( "//img" ) )
 						{
-							string htmlResult = reader.ReadToEnd( );
-
-							HtmlDocument document = new HtmlDocument( );
-							document.LoadHtml( htmlResult );
-
-							foreach ( HtmlNode node in document.DocumentNode.SelectNodes( "//img" ) )
+							if ( node.GetAttributeValue( "src", "" ).StartsWith( "http://imgcomic.naver.net/webtoon/" ) )
 							{
-								if ( node.GetAttributeValue( "src", "" ).StartsWith( "http://imgcomic.naver.net/webtoon/" ) )
-								{
-									webtoonImages.Add( node.GetAttributeValue( "src", "" ) );
-								}
+								webtoonImages.Add( node.GetAttributeValue( "src", "" ) );
 							}
+						}
 
-							int i = 0;
+						int i = 0;
 
-							foreach ( string url in webtoonImages )
-							{
-								i++;
+						foreach ( string url in webtoonImages )
+						{
+							i++;
 
-								StatusMessageLabelSet.Invoke( "다운로드 중 ... " + ( int ) ( ( ( float ) i / ( float ) webtoonImages.Count ) * 100 ) + "%" );
-								DownloadProgressChanged.Invoke( ( ( float ) i / ( float ) webtoonImages.Count ) );
+							StatusMessageLabelSet.Invoke( "다운로드 중 ... " + ( int ) ( ( ( float ) i / ( float ) webtoonImages.Count ) * 100 ) + "%" );
+							DownloadProgressChanged.Invoke( ( ( float ) i / ( float ) webtoonImages.Count ) );
 
-								Webtoon.DownloadImageFromDirectURL( thisDir + "\\이미지", url, i );
+							Webtoon.DownloadImageFromDirectURL( thisDir + "\\이미지", url, i );
 
-								if ( !Webtoon.FastDownloadMode )
-									Thread.Sleep( 30 );
-							}
+							if ( !Webtoon.FastDownloadMode )
+								Thread.Sleep( 30 );
+						}
 
-							await Task.Run( new Action( delegate ( )
-							{
-								ImageMerge.Merge( thisDir );
-							} ) );
+						await Task.Run( new Action( delegate( )
+						{
+							ImageMerge.Merge( thisDir );
+						} ) );
 
-							switch ( Viewer.Create( thisDir, info ) )
-							{
-								case Viewer.ViewerCreateResult.DirectoryNotFoundException:
-									ErrorMessageCall.Invoke( info.title + " - 웹툰 뷰어 파일을 생성할 수 없습니다, 저장 폴더를 찾을 수 없습니다." );
-									break;
-								case Viewer.ViewerCreateResult.IOException:
-									ErrorMessageCall.Invoke( info.title + " - 웹툰 뷰어 파일을 생성할 수 없습니다, 파일 처리를 할 수 없었습니다." );
-									break;
-								case Viewer.ViewerCreateResult.UnauthorizedAccessException:
-									ErrorMessageCall.Invoke( info.title + " - 웹툰 뷰어 파일을 생성할 수 없습니다, 액세스가 거부되었습니다." );
-									break;
-								case Viewer.ViewerCreateResult.Unknown:
-									ErrorMessageCall.Invoke( info.title + " - 웹툰 뷰어 파일을 생성할 수 없습니다, 알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
-									break;
-								case Viewer.ViewerCreateResult.Success:
-									// 뷰어 생성 성공
-									break;
-							}
+						switch ( Viewer.Create( thisDir, info ) )
+						{
+							case Viewer.ViewerCreateResult.DirectoryNotFoundException:
+								ErrorMessageCall.Invoke( info.title + " - 웹툰 뷰어 파일을 생성할 수 없습니다, 저장 폴더를 찾을 수 없습니다." );
+								break;
+							case Viewer.ViewerCreateResult.IOException:
+								ErrorMessageCall.Invoke( info.title + " - 웹툰 뷰어 파일을 생성할 수 없습니다, 파일 처리를 할 수 없었습니다." );
+								break;
+							case Viewer.ViewerCreateResult.UnauthorizedAccessException:
+								ErrorMessageCall.Invoke( info.title + " - 웹툰 뷰어 파일을 생성할 수 없습니다, 액세스가 거부되었습니다." );
+								break;
+							case Viewer.ViewerCreateResult.Unknown:
+								ErrorMessageCall.Invoke( info.title + " - 웹툰 뷰어 파일을 생성할 수 없습니다, 알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요." );
+								break;
+							case Viewer.ViewerCreateResult.Success:
+								// 뷰어 생성 성공
+								break;
 						}
 					}
 				}
+			}
 			//}
 			//catch ( Exception ex )
 			//{
@@ -466,15 +771,15 @@ namespace WebtoonDownloader
 
 		public static async Task<WebtoonBasicInformation> GetBasicInformation( string url )
 		{
-			url = Webtoon.FixURL( url );
+			//url = Webtoon.FixURL( url );
 
-			if ( url != "" )
+			if ( Webtoon.IsValidFixURL( ref url ) )
 			{
 				int maxPage = Webtoon.GetListMaxPage( url );
 
 				if ( maxPage != -1 )
 				{
-					WebtoonBasicInformation result = await Task.Run<WebtoonBasicInformation>( new Func<WebtoonBasicInformation>( delegate ( )
+					WebtoonBasicInformation result = await Task.Run<WebtoonBasicInformation>( new Func<WebtoonBasicInformation>( delegate( )
 					{
 						WebtoonBasicInformation returnInfo = new WebtoonBasicInformation( );
 						returnInfo.url = url;
@@ -618,9 +923,7 @@ namespace WebtoonDownloader
 				{
 					System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo( "en-US" );
 
-					url = Webtoon.FixURL( url );
-
-					if ( url != "" )
+					if ( Webtoon.IsValidFixURL( ref url ) )
 					{
 						int maxPage = Webtoon.GetListMaxPage( url );
 
@@ -672,7 +975,7 @@ namespace WebtoonDownloader
 				catch ( ThreadAbortException )
 				{
 					GC.Collect( 0, GCCollectionMode.Forced ); // 쓰레드가 강제 종료된 후 메모리를 정리하기 위해 GC 강제 실행
-					Utility.WriteErrorLog( "GC collected.", "ThreadAbortException" );
+					//Utility.WriteErrorLog( "GC collected.", "ThreadAbortException" );
 				}
 				catch ( Exception ex )
 				{

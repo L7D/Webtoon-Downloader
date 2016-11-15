@@ -44,9 +44,12 @@ namespace WebtoonDownloader
 
 						REQUEST_BUTTON.ButtonText = "다운로드";
 						REQUEST_BUTTON.Enabled = true;
+						REQUEST_BUTTON.Visible = false;
+
+						searchButton.Visible = true;
 
 						webtoonTitleLabel.Text = "웹툰 다운로더";
-						webtoonDescriptionLabel.Text = "다운받으실 웹툰의 링크를 입력하세요.";
+						webtoonDescriptionLabel.Text = "다운로드 받으실 웹툰을 찾아보세요.";
 
 						webtoonTitleLabel.Location = new Point( 9, 120 );
 						webtoonTitleLabel.Size = new Size( 583, 30 );
@@ -62,16 +65,11 @@ namespace WebtoonDownloader
 						downFinishShutDownCheckBox.Visible = false;
 						downFinishShutDownCheckBox.Checked = false;
 
-						backgroundImage.Image = Properties.Resources.background;
+						//backgroundImage.Image = Properties.Resources.background;
+						SetRandomBackgroundWallpaper( );
 
 						targetWebtoonBasicInformation = null;
 
-						URL_TEXTBOX.Enabled = true;
-						URL_TEXTBOX.Visible = true;
-						URL_TEXTBOX.Text = "";
-						URL_TEXTBOX_TITLELABEL.Visible = true;
-						StatusMessageLabel.Visible = false;
-						StatusMessageLabel.Text = "";
 						downloadProgress.Visible = false;
 						CANCEL_BUTTON.Visible = false;
 
@@ -87,22 +85,22 @@ namespace WebtoonDownloader
 
 						break;
 					case UIStatus.BaseInformationRequesting:
-						URL_TEXTBOX.Enabled = false;
-						REQUEST_BUTTON.ButtonText = "요청 중 ...";
-						REQUEST_BUTTON.Enabled = false;
+						REQUEST_BUTTON.Enabled = true;
+						REQUEST_BUTTON.Visible = false;
+						searchButton.Visible = false;
 						break;
 					case UIStatus.BaseInformationTargetLockOned:
 						WebtoonBasicInformation target = ( WebtoonBasicInformation ) targetWebtoonBasicInformation;
 
-						URL_TEXTBOX.Enabled = true;
-						REQUEST_BUTTON.ButtonText = "전체 화 다운로드!";
+						REQUEST_BUTTON.ButtonText = "다운로드!";
 						REQUEST_BUTTON.Enabled = true;
+						REQUEST_BUTTON.Visible = true;
+
+						searchButton.Visible = false;
 
 						webtoonTitleLabel.Text = target.title;
 						webtoonDescriptionLabel.Text = target.description;
 
-						URL_TEXTBOX_TITLELABEL.Visible = false;
-						URL_TEXTBOX.Visible = false;
 						downloadProgress.Visible = true;
 						CANCEL_BUTTON.Visible = true;
 
@@ -112,6 +110,8 @@ namespace WebtoonDownloader
 						downFinishShutDownCheckBox.Checked = false;
 						REQUEST_BUTTON.ButtonText = "다운로드 중 ...";
 						REQUEST_BUTTON.Enabled = false;
+						REQUEST_BUTTON.Visible = true;
+						searchButton.Visible = false;
 						break;
 				}
 			}
@@ -126,6 +126,22 @@ namespace WebtoonDownloader
 			InitializeComponent( );
 		}
 
+		private void SetRandomBackgroundWallpaper( )
+		{
+			string dir = Application.StartupPath + @"\theme";
+
+			if ( System.IO.Directory.Exists( dir ) )
+			{
+				string[ ] files = System.IO.Directory.GetFiles( Application.StartupPath + @"\theme\", "background_*.png", System.IO.SearchOption.TopDirectoryOnly );
+
+				backgroundImage.Image = Image.FromFile( files[ new Random( ).Next( 0, files.Length ) ] );
+			}
+			else
+			{
+				backgroundImage.Image = null;
+			}
+		}
+
 		private void Main_Load( object sender, EventArgs e )
 		{
 			new Welcome( ).ShowDialog( );
@@ -137,6 +153,7 @@ namespace WebtoonDownloader
 				return;
 			}
 
+			//APP_TITLE_BAR.BackColor = Color.FromArgb( 200, 255, 255, 255 );
 			APP_TITLE_BAR.Parent = backgroundImage;
 
 			starImage.Parent = backgroundImage;
@@ -151,6 +168,9 @@ namespace WebtoonDownloader
 			webtoonTitleLabel.BackColor = Color.FromArgb( 200, 255, 255, 255 );
 			webtoonDescriptionLabel.BackColor = Color.FromArgb( 200, 255, 255, 255 );
 
+			webtoonStarRateLabel.BackColor = Color.FromArgb( 200, 255, 255, 255 );
+			webtoonUploadDateLabel.BackColor = Color.FromArgb( 200, 255, 255, 255 );
+
 			Webtoon.StatusMessageLabelSet += Webtoon_StatusMessageLabel_Set;
 			Webtoon.DownloadFinished += Webtoon_DownloadFinished;
 			Webtoon.ErrorMessageCall += Webtoon_ErrorMessageCall;
@@ -158,8 +178,6 @@ namespace WebtoonDownloader
 			Webtoon.DownloadProgressChanged += Webtoon_DownloadProgressChanged;
 
 			UIStatusVar = UIStatus.Idle;
-
-			URL_TEXTBOX.Focus( );
 		}
 
 		private void MINIMIZE_BUTTON_Click( object sender, EventArgs e )
@@ -210,7 +228,7 @@ namespace WebtoonDownloader
 
 		private void Webtoon_StatusMessageLabel_Set( string message )
 		{
-			REQUEST_BUTTON.ButtonText = message;
+			webtoonDescriptionLabel.Text = message;
 		}
 
 		private void Webtoon_DownloadFinished( bool success )
@@ -224,11 +242,11 @@ namespace WebtoonDownloader
 					UIStatusVar = UIStatus.Idle;
 					//System.Diagnostics.Process.Start( "shutdown", "/s /f /t 60" ); // 시스템 종료
 
-					Win32.InitiateSystemShutdown( "\\\\127.0.0.1",	// 컴퓨터 이름
-						null,			// 종료 전 사용자에게 알릴 메시지
-						60,				// 종료까지 대기 시간
-						false,			// 프로그램 강제 종료 여부(false > 강제 종료)
-						false			// 시스템 종료 후 다시 시작 여부(true > 다시 시작)
+					Win32.InitiateSystemShutdown( "\\\\127.0.0.1",  // 컴퓨터 이름
+						null,           // 종료 전 사용자에게 알릴 메시지
+						60,             // 종료까지 대기 시간
+						false,          // 프로그램 강제 종료 여부(false > 강제 종료)
+						false           // 시스템 종료 후 다시 시작 여부(true > 다시 시작)
 					);
 
 					new ShutdownNotify( ).ShowDialog( );
@@ -263,7 +281,7 @@ namespace WebtoonDownloader
 			uploadDateImage.Visible = true;
 			webtoonUploadDateLabel.Visible = true;
 
-			webtoonDescriptionLabel.Text = info.title;
+			webtoonTitleLabel.Text = info.title;
 			webtoonStarRateLabel.Text = info.starRate;
 			webtoonUploadDateLabel.Text = info.uploadDate;
 
@@ -324,42 +342,6 @@ namespace WebtoonDownloader
 
 				return;
 			}
-
-			UIStatusVar = UIStatus.BaseInformationRequesting;
-
-			Thread requestThread = new Thread( async ( ) =>
-			{
-				WebtoonBasicInformation result = await Webtoon.GetBasicInformation( URL_TEXTBOX.Text.Trim( ) );
-
-				if ( !string.IsNullOrEmpty( result.title ) && !string.IsNullOrEmpty( result.description ) && !string.IsNullOrEmpty( result.thumbnailURL ) ) // 추가 필요
-				{
-					targetWebtoonBasicInformation = result;
-
-					if ( this.InvokeRequired )
-					{
-						this.Invoke( new Action( delegate ( )
-						{
-							UIStatusVar = UIStatus.BaseInformationTargetLockOned;
-						} ) );
-					}
-					else
-					{
-						UIStatusVar = UIStatus.BaseInformationTargetLockOned;
-					}
-
-					return;
-				}
-				else
-				{
-					UIStatusVar = UIStatus.Idle;
-					NotifyBox.Show( this, "오류", "해당 웹툰의 데이터를 불러올 수 없습니다.", NotifyBoxType.OK, NotifyBoxIcon.Error );
-				}
-			} )
-			{
-				IsBackground = true
-			};
-
-			requestThread.Start( );
 		}
 
 		private void APP_LOGO_Click( object sender, EventArgs e )
@@ -391,12 +373,12 @@ namespace WebtoonDownloader
 
 		private void APP_TITLE_BAR_Paint( object sender, PaintEventArgs e )
 		{
-			int w = this.APP_TITLE_BAR.Width, h = this.APP_TITLE_BAR.Height;
+			//int w = this.APP_TITLE_BAR.Width, h = this.APP_TITLE_BAR.Height;
 
-			e.Graphics.DrawLine( lineDrawer, 0, 0, w, 0 ); // Top line drawing
-			e.Graphics.DrawLine( lineDrawer, 0, 0, 0, h ); // Left line drawing
-			e.Graphics.DrawLine( lineDrawer, w - lineDrawer.Width, 0, w - lineDrawer.Width, h ); // Right line drawing
-			e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
+			//e.Graphics.DrawLine( lineDrawer, 0, 0, w, 0 ); // Top line drawing
+			//e.Graphics.DrawLine( lineDrawer, 0, 0, 0, h ); // Left line drawing
+			//e.Graphics.DrawLine( lineDrawer, w - lineDrawer.Width, 0, w - lineDrawer.Width, h ); // Right line drawing
+			//e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
 		}
 
 		private void Main_Paint( object sender, PaintEventArgs e )
@@ -422,6 +404,56 @@ namespace WebtoonDownloader
 			e.Graphics.DrawLine( lineDrawer, 0, 0, 0, h ); // Left line drawing
 			e.Graphics.DrawLine( lineDrawer, w - lineDrawer.Width, 0, w - lineDrawer.Width, h ); // Right line drawing
 			e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
+		}
+
+		public void DownloadBegin( string url )
+		{
+			if ( UIStatusVar == UIStatus.Idle )
+			{
+				UIStatusVar = UIStatus.BaseInformationRequesting;
+
+				Thread requestThread = new Thread( async ( ) =>
+				{
+					WebtoonBasicInformation result = await Webtoon.GetBasicInformation( url );
+
+					if ( !string.IsNullOrEmpty( result.title ) && !string.IsNullOrEmpty( result.description ) && !string.IsNullOrEmpty( result.thumbnailURL ) ) // 추가 필요
+					{
+						targetWebtoonBasicInformation = result;
+
+						if ( this.InvokeRequired )
+						{
+							this.Invoke( new Action( delegate ( )
+							{
+								UIStatusVar = UIStatus.BaseInformationTargetLockOned;
+							} ) );
+						}
+						else
+						{
+							UIStatusVar = UIStatus.BaseInformationTargetLockOned;
+						}
+
+						return;
+					}
+					else
+					{
+						UIStatusVar = UIStatus.Idle;
+						NotifyBox.Show( this, "오류", "해당 웹툰의 데이터를 불러올 수 없습니다.", NotifyBoxType.OK, NotifyBoxIcon.Error );
+					}
+				} )
+				{
+					IsBackground = true
+				};
+
+				requestThread.Start( );
+			}
+		}
+
+		private void searchButton_Click( object sender, EventArgs e )
+		{
+			WebtoonSearch form = new WebtoonSearch( );
+			form.Size = new Size( 800, 358 );
+			form.Owner = this;
+			form.ShowDialog( );
 		}
 	}
 }

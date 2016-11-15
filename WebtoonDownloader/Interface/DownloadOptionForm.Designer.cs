@@ -31,30 +31,28 @@
 			this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DownloadOptionForm));
 			this.APP_TITLE_BAR = new System.Windows.Forms.Panel();
-			this.fastDownloadModeTitle = new System.Windows.Forms.Label();
+			this.CLOSE_BUTTON = new WebtoonDownloader.Interface.FlatImageButton();
+			this.APP_LOGO = new System.Windows.Forms.PictureBox();
+			this.APP_TITLE = new WebtoonDownloader.Interface.CustomLabel();
 			this.webtoonPageList = new System.Windows.Forms.Panel();
 			this.loadingStatusLabel = new System.Windows.Forms.Label();
 			this.searchTextBox = new System.Windows.Forms.TextBox();
 			this.searchTitleLabel = new System.Windows.Forms.Label();
 			this.toolTipControl = new System.Windows.Forms.ToolTip(this.components);
-			this.fastDownloadModeDesc = new System.Windows.Forms.Label();
+			this.fastDownloadModeSwitch = new WebtoonDownloader.Interface.FlatImageButton();
 			this.webtoonDescriptionLabel = new System.Windows.Forms.Label();
 			this.webtoonTitleLabel = new System.Windows.Forms.Label();
 			this.webtoonNumLabel = new System.Windows.Forms.Label();
 			this.pageIndexList = new System.Windows.Forms.Panel();
 			this.webtoonThumbnailImage = new System.Windows.Forms.PictureBox();
-			this.APP_LOGO = new System.Windows.Forms.PictureBox();
-			this.fastDownloadModeSwitch = new WebtoonDownloader.Interface.FlatImageButton();
 			this.DOWNLOAD_BUTTON = new WebtoonDownloader.Interface.FlatButton();
 			this.sortSwitchImageButton = new WebtoonDownloader.Interface.FlatImageButton();
-			this.CLOSE_BUTTON = new WebtoonDownloader.Interface.FlatImageButton();
-			this.APP_TITLE = new WebtoonDownloader.Interface.CustomLabel();
 			this.APP_TITLE_BAR.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.webtoonThumbnailImage)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.fastDownloadModeSwitch)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.webtoonThumbnailImage)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.sortSwitchImageButton)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// APP_TITLE_BAR
@@ -71,36 +69,65 @@
 			this.APP_TITLE_BAR.MouseDown += new System.Windows.Forms.MouseEventHandler(this.APP_TITLE_BAR_MouseDown);
 			this.APP_TITLE_BAR.MouseMove += new System.Windows.Forms.MouseEventHandler(this.APP_TITLE_BAR_MouseMove);
 			// 
-			// fastDownloadModeTitle
+			// CLOSE_BUTTON
 			// 
-			this.fastDownloadModeTitle.AutoSize = true;
-			this.fastDownloadModeTitle.BackColor = System.Drawing.Color.Transparent;
-			this.fastDownloadModeTitle.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.fastDownloadModeTitle.Location = new System.Drawing.Point(68, 640);
-			this.fastDownloadModeTitle.Name = "fastDownloadModeTitle";
-			this.fastDownloadModeTitle.Size = new System.Drawing.Size(229, 20);
-			this.fastDownloadModeTitle.TabIndex = 7;
-			this.fastDownloadModeTitle.Text = "고속 다운로드 모드 비 활성화 됨";
+			this.CLOSE_BUTTON.AnimationLerpP = 0.8F;
+			this.CLOSE_BUTTON.BackColor = System.Drawing.Color.Transparent;
+			this.CLOSE_BUTTON.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.CLOSE_BUTTON.EnterStateBackgroundColor = System.Drawing.Color.IndianRed;
+			this.CLOSE_BUTTON.Image = global::WebtoonDownloader.Properties.Resources.close;
+			this.CLOSE_BUTTON.Location = new System.Drawing.Point(760, 0);
+			this.CLOSE_BUTTON.Name = "CLOSE_BUTTON";
+			this.CLOSE_BUTTON.NormalStateBackgroundColor = System.Drawing.Color.DarkGray;
+			this.CLOSE_BUTTON.Size = new System.Drawing.Size(40, 40);
+			this.CLOSE_BUTTON.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.CLOSE_BUTTON.TabIndex = 5;
+			this.CLOSE_BUTTON.TabStop = false;
+			this.CLOSE_BUTTON.Click += new System.EventHandler(this.CLOSE_BUTTON_Click);
+			// 
+			// APP_LOGO
+			// 
+			this.APP_LOGO.BackColor = System.Drawing.Color.Transparent;
+			this.APP_LOGO.Cursor = System.Windows.Forms.Cursors.Default;
+			this.APP_LOGO.Image = global::WebtoonDownloader.Properties.Resources.APP_ICON_30x30;
+			this.APP_LOGO.Location = new System.Drawing.Point(5, 5);
+			this.APP_LOGO.Name = "APP_LOGO";
+			this.APP_LOGO.Size = new System.Drawing.Size(30, 30);
+			this.APP_LOGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.APP_LOGO.TabIndex = 3;
+			this.APP_LOGO.TabStop = false;
+			// 
+			// APP_TITLE
+			// 
+			this.APP_TITLE.AutoSize = true;
+			this.APP_TITLE.BackColor = System.Drawing.Color.Transparent;
+			this.APP_TITLE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.APP_TITLE.Location = new System.Drawing.Point(40, 12);
+			this.APP_TITLE.Name = "APP_TITLE";
+			this.APP_TITLE.Size = new System.Drawing.Size(91, 17);
+			this.APP_TITLE.TabIndex = 0;
+			this.APP_TITLE.Text = "다운로드 옵션";
+			this.APP_TITLE.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
 			// 
 			// webtoonPageList
 			// 
 			this.webtoonPageList.AutoScroll = true;
 			this.webtoonPageList.BackColor = System.Drawing.Color.Transparent;
-			this.webtoonPageList.Location = new System.Drawing.Point(12, 82);
+			this.webtoonPageList.Location = new System.Drawing.Point(12, 80);
 			this.webtoonPageList.Name = "webtoonPageList";
-			this.webtoonPageList.Size = new System.Drawing.Size(550, 510);
+			this.webtoonPageList.Size = new System.Drawing.Size(550, 570);
 			this.webtoonPageList.TabIndex = 3;
 			// 
 			// loadingStatusLabel
 			// 
 			this.loadingStatusLabel.BackColor = System.Drawing.Color.Transparent;
-			this.loadingStatusLabel.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.loadingStatusLabel.Location = new System.Drawing.Point(568, 602);
+			this.loadingStatusLabel.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.loadingStatusLabel.Location = new System.Drawing.Point(565, 550);
 			this.loadingStatusLabel.Name = "loadingStatusLabel";
-			this.loadingStatusLabel.Size = new System.Drawing.Size(220, 25);
+			this.loadingStatusLabel.Size = new System.Drawing.Size(223, 25);
 			this.loadingStatusLabel.TabIndex = 0;
 			this.loadingStatusLabel.Text = "데이터를 불러오고 있습니다 ...";
-			this.loadingStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.loadingStatusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
 			// 
 			// searchTextBox
 			// 
@@ -118,7 +145,7 @@
 			// 
 			this.searchTitleLabel.AutoSize = true;
 			this.searchTitleLabel.BackColor = System.Drawing.Color.Transparent;
-			this.searchTitleLabel.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.searchTitleLabel.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
 			this.searchTitleLabel.Location = new System.Drawing.Point(11, 54);
 			this.searchTitleLabel.Name = "searchTitleLabel";
 			this.searchTitleLabel.Size = new System.Drawing.Size(83, 15);
@@ -129,23 +156,29 @@
 			// 
 			this.toolTipControl.BackColor = System.Drawing.Color.White;
 			// 
-			// fastDownloadModeDesc
+			// fastDownloadModeSwitch
 			// 
-			this.fastDownloadModeDesc.AutoSize = true;
-			this.fastDownloadModeDesc.BackColor = System.Drawing.Color.Transparent;
-			this.fastDownloadModeDesc.Font = new System.Drawing.Font("맑은 고딕", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.fastDownloadModeDesc.Location = new System.Drawing.Point(69, 670);
-			this.fastDownloadModeDesc.Name = "fastDownloadModeDesc";
-			this.fastDownloadModeDesc.Size = new System.Drawing.Size(482, 13);
-			this.fastDownloadModeDesc.TabIndex = 12;
-			this.fastDownloadModeDesc.Text = "고속 다운로드 모드는 파일 안정성을 위한 대기시간을 모두 없애 다운로드 속도를 가속시킵니다.";
-			this.fastDownloadModeDesc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.fastDownloadModeSwitch.AnimationLerpP = 0.8F;
+			this.fastDownloadModeSwitch.BackColor = System.Drawing.Color.Transparent;
+			this.fastDownloadModeSwitch.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.fastDownloadModeSwitch.EnterStateBackgroundColor = System.Drawing.Color.DimGray;
+			this.fastDownloadModeSwitch.Image = global::WebtoonDownloader.Properties.Resources.fastDownload;
+			this.fastDownloadModeSwitch.Location = new System.Drawing.Point(738, 582);
+			this.fastDownloadModeSwitch.Name = "fastDownloadModeSwitch";
+			this.fastDownloadModeSwitch.NormalStateBackgroundColor = System.Drawing.Color.DarkGray;
+			this.fastDownloadModeSwitch.Size = new System.Drawing.Size(50, 50);
+			this.fastDownloadModeSwitch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.fastDownloadModeSwitch.TabIndex = 11;
+			this.fastDownloadModeSwitch.TabStop = false;
+			this.toolTipControl.SetToolTip(this.fastDownloadModeSwitch, "고속 다운로드 모드 사용 가능\r\n\r\n고속 다운로드 모드는 안정성을 위한 대기시간을 모두 없애 다운로드 속도를 가속시킵니다,\r\n속도는 빨라지지만 불" +
+        "안정해질 수 있습니다.");
+			this.fastDownloadModeSwitch.Click += new System.EventHandler(this.fastDownloadModeSwitch_Click);
 			// 
 			// webtoonDescriptionLabel
 			// 
 			this.webtoonDescriptionLabel.BackColor = System.Drawing.Color.Transparent;
 			this.webtoonDescriptionLabel.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.webtoonDescriptionLabel.Location = new System.Drawing.Point(568, 335);
+			this.webtoonDescriptionLabel.Location = new System.Drawing.Point(568, 325);
 			this.webtoonDescriptionLabel.Name = "webtoonDescriptionLabel";
 			this.webtoonDescriptionLabel.Size = new System.Drawing.Size(220, 149);
 			this.webtoonDescriptionLabel.TabIndex = 15;
@@ -156,7 +189,7 @@
 			// 
 			this.webtoonTitleLabel.BackColor = System.Drawing.Color.Transparent;
 			this.webtoonTitleLabel.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.webtoonTitleLabel.Location = new System.Drawing.Point(568, 295);
+			this.webtoonTitleLabel.Location = new System.Drawing.Point(568, 290);
 			this.webtoonTitleLabel.Name = "webtoonTitleLabel";
 			this.webtoonTitleLabel.Size = new System.Drawing.Size(220, 30);
 			this.webtoonTitleLabel.TabIndex = 14;
@@ -176,7 +209,7 @@
 			// 
 			// pageIndexList
 			// 
-			this.pageIndexList.Location = new System.Drawing.Point(12, 600);
+			this.pageIndexList.Location = new System.Drawing.Point(12, 657);
 			this.pageIndexList.Name = "pageIndexList";
 			this.pageIndexList.Size = new System.Drawing.Size(550, 31);
 			this.pageIndexList.TabIndex = 0;
@@ -191,34 +224,7 @@
 			this.webtoonThumbnailImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.webtoonThumbnailImage.TabIndex = 13;
 			this.webtoonThumbnailImage.TabStop = false;
-			// 
-			// APP_LOGO
-			// 
-			this.APP_LOGO.BackColor = System.Drawing.Color.Transparent;
-			this.APP_LOGO.Cursor = System.Windows.Forms.Cursors.Default;
-			this.APP_LOGO.Image = global::WebtoonDownloader.Properties.Resources.APP_ICON_30x30;
-			this.APP_LOGO.Location = new System.Drawing.Point(5, 5);
-			this.APP_LOGO.Name = "APP_LOGO";
-			this.APP_LOGO.Size = new System.Drawing.Size(30, 30);
-			this.APP_LOGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.APP_LOGO.TabIndex = 3;
-			this.APP_LOGO.TabStop = false;
-			// 
-			// fastDownloadModeSwitch
-			// 
-			this.fastDownloadModeSwitch.AnimationLerpP = 0.8F;
-			this.fastDownloadModeSwitch.BackColor = System.Drawing.Color.Transparent;
-			this.fastDownloadModeSwitch.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.fastDownloadModeSwitch.EnterStateBackgroundColor = System.Drawing.Color.DimGray;
-			this.fastDownloadModeSwitch.Image = global::WebtoonDownloader.Properties.Resources.fastDownload;
-			this.fastDownloadModeSwitch.Location = new System.Drawing.Point(12, 638);
-			this.fastDownloadModeSwitch.Name = "fastDownloadModeSwitch";
-			this.fastDownloadModeSwitch.NormalStateBackgroundColor = System.Drawing.Color.DarkGray;
-			this.fastDownloadModeSwitch.Size = new System.Drawing.Size(50, 50);
-			this.fastDownloadModeSwitch.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.fastDownloadModeSwitch.TabIndex = 11;
-			this.fastDownloadModeSwitch.TabStop = false;
-			this.fastDownloadModeSwitch.Click += new System.EventHandler(this.fastDownloadModeSwitch_Click);
+			this.webtoonThumbnailImage.Paint += new System.Windows.Forms.PaintEventHandler(this.webtoonThumbnailImage_Paint);
 			// 
 			// DOWNLOAD_BUTTON
 			// 
@@ -255,34 +261,6 @@
 			this.sortSwitchImageButton.TabStop = false;
 			this.sortSwitchImageButton.Click += new System.EventHandler(this.sortSwitchImageButton_Click);
 			// 
-			// CLOSE_BUTTON
-			// 
-			this.CLOSE_BUTTON.AnimationLerpP = 0.8F;
-			this.CLOSE_BUTTON.BackColor = System.Drawing.Color.Transparent;
-			this.CLOSE_BUTTON.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.CLOSE_BUTTON.EnterStateBackgroundColor = System.Drawing.Color.IndianRed;
-			this.CLOSE_BUTTON.Image = global::WebtoonDownloader.Properties.Resources.close;
-			this.CLOSE_BUTTON.Location = new System.Drawing.Point(760, 0);
-			this.CLOSE_BUTTON.Name = "CLOSE_BUTTON";
-			this.CLOSE_BUTTON.NormalStateBackgroundColor = System.Drawing.Color.DarkGray;
-			this.CLOSE_BUTTON.Size = new System.Drawing.Size(40, 40);
-			this.CLOSE_BUTTON.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.CLOSE_BUTTON.TabIndex = 5;
-			this.CLOSE_BUTTON.TabStop = false;
-			this.CLOSE_BUTTON.Click += new System.EventHandler(this.CLOSE_BUTTON_Click);
-			// 
-			// APP_TITLE
-			// 
-			this.APP_TITLE.AutoSize = true;
-			this.APP_TITLE.BackColor = System.Drawing.Color.Transparent;
-			this.APP_TITLE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.APP_TITLE.Location = new System.Drawing.Point(40, 12);
-			this.APP_TITLE.Name = "APP_TITLE";
-			this.APP_TITLE.Size = new System.Drawing.Size(91, 17);
-			this.APP_TITLE.TabIndex = 0;
-			this.APP_TITLE.Text = "다운로드 옵션";
-			this.APP_TITLE.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-			// 
 			// DownloadOptionForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -294,10 +272,8 @@
 			this.Controls.Add(this.webtoonDescriptionLabel);
 			this.Controls.Add(this.webtoonThumbnailImage);
 			this.Controls.Add(this.webtoonTitleLabel);
-			this.Controls.Add(this.fastDownloadModeDesc);
 			this.Controls.Add(this.fastDownloadModeSwitch);
 			this.Controls.Add(this.loadingStatusLabel);
-			this.Controls.Add(this.fastDownloadModeTitle);
 			this.Controls.Add(this.DOWNLOAD_BUTTON);
 			this.Controls.Add(this.sortSwitchImageButton);
 			this.Controls.Add(this.searchTitleLabel);
@@ -315,11 +291,11 @@
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.DownloadOptionForm_Paint);
 			this.APP_TITLE_BAR.ResumeLayout(false);
 			this.APP_TITLE_BAR.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.webtoonThumbnailImage)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.fastDownloadModeSwitch)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.webtoonThumbnailImage)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.sortSwitchImageButton)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -337,10 +313,8 @@
 		private System.Windows.Forms.Label searchTitleLabel;
 		private FlatImageButton sortSwitchImageButton;
 		private System.Windows.Forms.ToolTip toolTipControl;
-		private System.Windows.Forms.Label fastDownloadModeTitle;
 		private FlatButton DOWNLOAD_BUTTON;
 		private FlatImageButton fastDownloadModeSwitch;
-		private System.Windows.Forms.Label fastDownloadModeDesc;
 		private System.Windows.Forms.PictureBox webtoonThumbnailImage;
 		private System.Windows.Forms.Label webtoonDescriptionLabel;
 		private System.Windows.Forms.Label webtoonTitleLabel;

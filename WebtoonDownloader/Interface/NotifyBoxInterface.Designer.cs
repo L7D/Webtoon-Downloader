@@ -59,7 +59,7 @@
 			this.TITLE_LABEL.AutoSize = true;
 			this.TITLE_LABEL.BackColor = System.Drawing.Color.Transparent;
 			this.TITLE_LABEL.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.TITLE_LABEL.Location = new System.Drawing.Point(8, 8);
+			this.TITLE_LABEL.Location = new System.Drawing.Point(8, 7);
 			this.TITLE_LABEL.Name = "TITLE_LABEL";
 			this.TITLE_LABEL.Size = new System.Drawing.Size(31, 15);
 			this.TITLE_LABEL.TabIndex = 0;

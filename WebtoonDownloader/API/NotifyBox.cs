@@ -36,7 +36,10 @@ namespace WebtoonDownloader.API
 			NotifyBoxResult returnType = NotifyBoxResult.Null;
 
 			NotifyBoxInterface Form = new NotifyBoxInterface( title, message, type, icon );
-			Form.Owner = parent;
+			if ( parent == null )
+				Form.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+			else
+				Form.Owner = parent;
 			Form.EventBack += ( receivedType ) =>
 			{
 				returnType = receivedType;

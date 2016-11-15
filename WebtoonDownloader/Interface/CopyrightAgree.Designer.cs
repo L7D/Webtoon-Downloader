@@ -30,20 +30,20 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CopyrightAgree));
 			this.APP_TITLE_BAR = new System.Windows.Forms.Panel();
+			this.APP_LOGO = new System.Windows.Forms.PictureBox();
+			this.APP_TITLE = new WebtoonDownloader.Interface.CustomLabel();
+			this.CLOSE_BUTTON = new WebtoonDownloader.Interface.FlatImageButton();
 			this.copyrightLabelTitle = new System.Windows.Forms.Label();
 			this.copyrightHTMLText = new System.Windows.Forms.WebBrowser();
 			this.lawIcon = new System.Windows.Forms.PictureBox();
-			this.APP_LOGO = new System.Windows.Forms.PictureBox();
 			this.licenseDetailShowButton = new WebtoonDownloader.Interface.FlatButton();
 			this.showAnotherLanguageButton = new WebtoonDownloader.Interface.FlatButton();
 			this.DISAGREE_BUTTON = new WebtoonDownloader.Interface.FlatButton();
 			this.AGREE_BUTTON = new WebtoonDownloader.Interface.FlatButton();
-			this.APP_TITLE = new WebtoonDownloader.Interface.CustomLabel();
-			this.CLOSE_BUTTON = new WebtoonDownloader.Interface.FlatImageButton();
 			this.APP_TITLE_BAR.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.lawIcon)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.lawIcon)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// APP_TITLE_BAR
@@ -59,6 +59,46 @@
 			this.APP_TITLE_BAR.Paint += new System.Windows.Forms.PaintEventHandler(this.APP_TITLE_BAR_Paint);
 			this.APP_TITLE_BAR.MouseDown += new System.Windows.Forms.MouseEventHandler(this.APP_TITLE_BAR_MouseDown);
 			this.APP_TITLE_BAR.MouseMove += new System.Windows.Forms.MouseEventHandler(this.APP_TITLE_BAR_MouseMove);
+			// 
+			// APP_LOGO
+			// 
+			this.APP_LOGO.BackColor = System.Drawing.Color.Transparent;
+			this.APP_LOGO.Cursor = System.Windows.Forms.Cursors.Default;
+			this.APP_LOGO.Image = global::WebtoonDownloader.Properties.Resources.APP_ICON_30x30;
+			this.APP_LOGO.Location = new System.Drawing.Point(5, 5);
+			this.APP_LOGO.Name = "APP_LOGO";
+			this.APP_LOGO.Size = new System.Drawing.Size(30, 30);
+			this.APP_LOGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.APP_LOGO.TabIndex = 3;
+			this.APP_LOGO.TabStop = false;
+			// 
+			// APP_TITLE
+			// 
+			this.APP_TITLE.AutoSize = true;
+			this.APP_TITLE.BackColor = System.Drawing.Color.Transparent;
+			this.APP_TITLE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.APP_TITLE.Location = new System.Drawing.Point(40, 12);
+			this.APP_TITLE.Name = "APP_TITLE";
+			this.APP_TITLE.Size = new System.Drawing.Size(166, 17);
+			this.APP_TITLE.TabIndex = 0;
+			this.APP_TITLE.Text = "웹툰 다운로더 사용권 동의";
+			this.APP_TITLE.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+			// 
+			// CLOSE_BUTTON
+			// 
+			this.CLOSE_BUTTON.AnimationLerpP = 0.8F;
+			this.CLOSE_BUTTON.BackColor = System.Drawing.Color.Transparent;
+			this.CLOSE_BUTTON.Cursor = System.Windows.Forms.Cursors.Hand;
+			this.CLOSE_BUTTON.EnterStateBackgroundColor = System.Drawing.Color.IndianRed;
+			this.CLOSE_BUTTON.Image = global::WebtoonDownloader.Properties.Resources.close;
+			this.CLOSE_BUTTON.Location = new System.Drawing.Point(560, 0);
+			this.CLOSE_BUTTON.Name = "CLOSE_BUTTON";
+			this.CLOSE_BUTTON.NormalStateBackgroundColor = System.Drawing.Color.DarkGray;
+			this.CLOSE_BUTTON.Size = new System.Drawing.Size(40, 40);
+			this.CLOSE_BUTTON.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+			this.CLOSE_BUTTON.TabIndex = 4;
+			this.CLOSE_BUTTON.TabStop = false;
+			this.CLOSE_BUTTON.Click += new System.EventHandler(this.CLOSE_BUTTON_Click);
 			// 
 			// copyrightLabelTitle
 			// 
@@ -97,18 +137,6 @@
 			this.lawIcon.TabIndex = 5;
 			this.lawIcon.TabStop = false;
 			// 
-			// APP_LOGO
-			// 
-			this.APP_LOGO.BackColor = System.Drawing.Color.Transparent;
-			this.APP_LOGO.Cursor = System.Windows.Forms.Cursors.Default;
-			this.APP_LOGO.Image = global::WebtoonDownloader.Properties.Resources.APP_ICON_30x30;
-			this.APP_LOGO.Location = new System.Drawing.Point(5, 5);
-			this.APP_LOGO.Name = "APP_LOGO";
-			this.APP_LOGO.Size = new System.Drawing.Size(30, 30);
-			this.APP_LOGO.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.APP_LOGO.TabIndex = 3;
-			this.APP_LOGO.TabStop = false;
-			// 
 			// licenseDetailShowButton
 			// 
 			this.licenseDetailShowButton.AnimationLerpP = 0.8F;
@@ -132,7 +160,7 @@
 			// 
 			this.showAnotherLanguageButton.AnimationLerpP = 0.8F;
 			this.showAnotherLanguageButton.BackColor = System.Drawing.Color.Transparent;
-			this.showAnotherLanguageButton.ButtonText = "사용권 한글 번역본 보기";
+			this.showAnotherLanguageButton.ButtonText = "사용권 원문 보기";
 			this.showAnotherLanguageButton.ButtonTextColor = System.Drawing.Color.Black;
 			this.showAnotherLanguageButton.Cursor = System.Windows.Forms.Cursors.Hand;
 			this.showAnotherLanguageButton.EnterStateBackgroundColor = System.Drawing.Color.Gainsboro;
@@ -143,7 +171,7 @@
 			this.showAnotherLanguageButton.NormalStateBackgroundColor = System.Drawing.Color.WhiteSmoke;
 			this.showAnotherLanguageButton.Size = new System.Drawing.Size(191, 25);
 			this.showAnotherLanguageButton.TabIndex = 8;
-			this.showAnotherLanguageButton.Text = "사용권 한글 번역본 보기";
+			this.showAnotherLanguageButton.Text = "사용권 원문 보기";
 			this.showAnotherLanguageButton.UseVisualStyleBackColor = false;
 			this.showAnotherLanguageButton.Click += new System.EventHandler(this.showAnotherLanguageButton_Click);
 			// 
@@ -185,34 +213,6 @@
 			this.AGREE_BUTTON.UseVisualStyleBackColor = false;
 			this.AGREE_BUTTON.Click += new System.EventHandler(this.AGREE_BUTTON_Click);
 			// 
-			// APP_TITLE
-			// 
-			this.APP_TITLE.AutoSize = true;
-			this.APP_TITLE.BackColor = System.Drawing.Color.Transparent;
-			this.APP_TITLE.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.APP_TITLE.Location = new System.Drawing.Point(40, 12);
-			this.APP_TITLE.Name = "APP_TITLE";
-			this.APP_TITLE.Size = new System.Drawing.Size(166, 17);
-			this.APP_TITLE.TabIndex = 0;
-			this.APP_TITLE.Text = "웹툰 다운로더 사용권 동의";
-			this.APP_TITLE.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-			// 
-			// CLOSE_BUTTON
-			// 
-			this.CLOSE_BUTTON.AnimationLerpP = 0.8F;
-			this.CLOSE_BUTTON.BackColor = System.Drawing.Color.Transparent;
-			this.CLOSE_BUTTON.Cursor = System.Windows.Forms.Cursors.Hand;
-			this.CLOSE_BUTTON.EnterStateBackgroundColor = System.Drawing.Color.IndianRed;
-			this.CLOSE_BUTTON.Image = global::WebtoonDownloader.Properties.Resources.close;
-			this.CLOSE_BUTTON.Location = new System.Drawing.Point(560, 0);
-			this.CLOSE_BUTTON.Name = "CLOSE_BUTTON";
-			this.CLOSE_BUTTON.NormalStateBackgroundColor = System.Drawing.Color.DarkGray;
-			this.CLOSE_BUTTON.Size = new System.Drawing.Size(40, 40);
-			this.CLOSE_BUTTON.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-			this.CLOSE_BUTTON.TabIndex = 4;
-			this.CLOSE_BUTTON.TabStop = false;
-			this.CLOSE_BUTTON.Click += new System.EventHandler(this.CLOSE_BUTTON_Click);
-			// 
 			// CopyrightAgree
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -236,9 +236,9 @@
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.CopyrightAgree_Paint);
 			this.APP_TITLE_BAR.ResumeLayout(false);
 			this.APP_TITLE_BAR.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.lawIcon)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.lawIcon)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
