@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent( )
 		{
+			this.components = new System.ComponentModel.Container();
 			this.webtoonThumbnailImage = new System.Windows.Forms.PictureBox();
 			this.webtoonTitleLabel = new System.Windows.Forms.Label();
 			this.webtoonDescriptionLabel = new System.Windows.Forms.Label();
@@ -36,7 +37,10 @@
 			this.webtoonUploadLabel = new System.Windows.Forms.Label();
 			this.webtoonGenreLabel = new System.Windows.Forms.Label();
 			this.selectButton = new WebtoonDownloader.Interface.FlatButton();
+			this.adultIcon = new System.Windows.Forms.PictureBox();
+			this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.webtoonThumbnailImage)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.adultIcon)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// webtoonThumbnailImage
@@ -86,9 +90,9 @@
 			// 
 			this.webtoonNumLabel.BackColor = System.Drawing.Color.Transparent;
 			this.webtoonNumLabel.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.webtoonNumLabel.Location = new System.Drawing.Point(617, 117);
+			this.webtoonNumLabel.Location = new System.Drawing.Point(642, 117);
 			this.webtoonNumLabel.Name = "webtoonNumLabel";
-			this.webtoonNumLabel.Size = new System.Drawing.Size(130, 30);
+			this.webtoonNumLabel.Size = new System.Drawing.Size(105, 30);
 			this.webtoonNumLabel.TabIndex = 10;
 			this.webtoonNumLabel.Text = "총 0화";
 			this.webtoonNumLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -134,11 +138,24 @@
 			this.selectButton.UseVisualStyleBackColor = false;
 			this.selectButton.Click += new System.EventHandler(this.selectButton_Click);
 			// 
+			// adultIcon
+			// 
+			this.adultIcon.BackColor = System.Drawing.Color.Transparent;
+			this.adultIcon.Image = global::WebtoonDownloader.Properties.Resources.adultIcon;
+			this.adultIcon.Location = new System.Drawing.Point(608, 117);
+			this.adultIcon.Name = "adultIcon";
+			this.adultIcon.Size = new System.Drawing.Size(30, 30);
+			this.adultIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+			this.adultIcon.TabIndex = 14;
+			this.adultIcon.TabStop = false;
+			this.toolTip1.SetToolTip(this.adultIcon, "미성년자 관람 불가 웹툰");
+			// 
 			// WebtoonSearchListChild
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Transparent;
+			this.Controls.Add(this.adultIcon);
 			this.Controls.Add(this.selectButton);
 			this.Controls.Add(this.webtoonGenreLabel);
 			this.Controls.Add(this.webtoonUploadLabel);
@@ -152,6 +169,7 @@
 			this.Load += new System.EventHandler(this.WebtoonSearchListChild_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.WebtoonSearchListChild_Paint);
 			((System.ComponentModel.ISupportInitialize)(this.webtoonThumbnailImage)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.adultIcon)).EndInit();
 			this.ResumeLayout(false);
 
 		}
@@ -166,5 +184,7 @@
 		private System.Windows.Forms.Label webtoonUploadLabel;
 		private System.Windows.Forms.Label webtoonGenreLabel;
 		private FlatButton selectButton;
+		private System.Windows.Forms.PictureBox adultIcon;
+		private System.Windows.Forms.ToolTip toolTip1;
 	}
 }

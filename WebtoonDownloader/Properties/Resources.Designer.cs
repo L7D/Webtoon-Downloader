@@ -63,6 +63,16 @@ namespace WebtoonDownloader.Properties {
         /// <summary>
         ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
+        internal static System.Drawing.Bitmap adultIcon {
+            get {
+                object obj = ResourceManager.GetObject("adultIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+        /// </summary>
         internal static System.Drawing.Bitmap APP_ICON_150x150 {
             get {
                 object obj = ResourceManager.GetObject("APP_ICON_150x150", resourceCulture);

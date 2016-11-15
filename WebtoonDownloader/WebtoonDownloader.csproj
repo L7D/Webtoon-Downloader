@@ -188,6 +188,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="APP_ICON.ico" />
+    <None Include="Resources\adultIcon.png" />
     <None Include="Resources\searchIcon.png" />
     <None Include="Resources\fastDownload.png" />
     <None Include="Resources\lawWarning.png" />

@@ -65,19 +65,16 @@ namespace WebtoonDownloader.Interface
 		private void Yes_Button_Click( object sender, EventArgs e )
 		{
 			EventBack.Invoke( NotifyBoxResult.Yes );
-			this.Close( );
 		}
 
 		private void NO_Button_Click( object sender, EventArgs e )
 		{
 			EventBack.Invoke( NotifyBoxResult.No );
-			this.Close( );
 		}
 
 		private void OK_Button_Click( object sender, EventArgs e )
 		{
 			EventBack.Invoke( NotifyBoxResult.OK );
-			this.Close( );
 		}
 
 		private void APP_TITLE_BAR_MouseMove( object sender, MouseEventArgs e )

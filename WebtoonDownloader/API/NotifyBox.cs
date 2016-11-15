@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using WebtoonDownloader.Interface;
 
@@ -35,17 +36,23 @@ namespace WebtoonDownloader.API
 		{
 			NotifyBoxResult returnType = NotifyBoxResult.Null;
 
-			NotifyBoxInterface Form = new NotifyBoxInterface( title, message, type, icon );
+			NotifyBoxInterface notify = new NotifyBoxInterface( title, message, type, icon );
+
 			if ( parent == null )
-				Form.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+				notify.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			else
-				Form.Owner = parent;
-			Form.EventBack += ( receivedType ) =>
+			{
+				notify.Owner = parent;
+				notify.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+			}
+
+			notify.EventBack += ( receivedType ) =>
 			{
 				returnType = receivedType;
+				notify.Close( );
 			};
 
-			Form.ShowDialog( );
+			notify.ShowDialog( );
 
 			return returnType;
 		}

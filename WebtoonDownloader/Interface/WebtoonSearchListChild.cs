@@ -14,7 +14,6 @@ namespace WebtoonDownloader.Interface
 	{
 		public event Action<WebtoonSearchResult> Selected;
 		private WebtoonSearchResult info;
-
 		private Pen lineDrawer = new Pen( GlobalVar.outlineColor )
 		{
 			Width = 1
@@ -33,6 +32,15 @@ namespace WebtoonDownloader.Interface
 			webtoonUploadLabel.Text = "마지막 업로드 일 : " + info.uploadDate;
 			webtoonNumLabel.Text = "총 " + info.num + "화";
 			webtoonGenreLabel.Text = info.genre + " 장르";
+
+			if ( info.adultWebtoon )
+			{
+				adultIcon.Visible = true;
+			}
+			else
+			{
+				adultIcon.Visible = false;
+			}
 
 			try
 			{
