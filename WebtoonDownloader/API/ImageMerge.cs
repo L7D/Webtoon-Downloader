@@ -71,7 +71,7 @@ namespace WebtoonDownloader.API
 				// 총 40개의 이미지가 4개로 나뉘어져서 합쳐진다
 				// 하지만 3개의 이미지가 남는다
 				// 이 파일들은 마지막 사이클에서 (즉 5번째 루프 i=4) 합친다.
-
+				
 				for ( int i = 0; i <= cycle; i++ )
 				{
 					if ( i == cycle ) // 마지막 사이클인지 확인

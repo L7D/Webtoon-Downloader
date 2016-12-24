@@ -1,4 +1,6 @@
-﻿namespace WebtoonDownloader
+﻿using WebtoonDownloader.API;
+
+namespace WebtoonDownloader
 {
 	static class GlobalEnum
 	{
@@ -10,6 +12,8 @@
 		public static bool copyrightAgree = false;
 		public static string viewerBaseHTMLString;
 		public static System.Drawing.Color outlineColor = System.Drawing.Color.DarkGray;
+		public static Update.UpdateCheckResult updateResult = Update.UpdateCheckResult.NotChecked;
+		public const string VDATACurrentVersion = "1.0.0.0";
 
 		static GlobalVar( )
 		{

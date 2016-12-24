@@ -165,7 +165,6 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "웹툰 다운로더 - 알림";
 			this.TopMost = true;
-			this.Load += new System.EventHandler(this.NotifyBoxInterface_Load);
 			this.Paint += new System.Windows.Forms.PaintEventHandler(this.NotifyBoxInterface_Paint);
 			this.APP_TITLE_BAR.ResumeLayout(false);
 			this.APP_TITLE_BAR.PerformLayout();

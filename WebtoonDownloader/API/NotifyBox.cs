@@ -39,20 +39,21 @@ namespace WebtoonDownloader.API
 			NotifyBoxInterface notify = new NotifyBoxInterface( title, message, type, icon );
 
 			if ( parent == null )
+			{
 				notify.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+				notify.ShowDialog( );
+			}
 			else
 			{
-				notify.Owner = parent;
-				notify.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+				parent.Invoke( new Action( ( ) =>
+				{
+					notify.Owner = parent;
+					notify.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+					notify.ShowDialog( parent );
+
+					returnType = notify.Result;
+				} ) );
 			}
-
-			notify.EventBack += ( receivedType ) =>
-			{
-				returnType = receivedType;
-				notify.Close( );
-			};
-
-			notify.ShowDialog( );
 
 			return returnType;
 		}

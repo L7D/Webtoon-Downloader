@@ -40,6 +40,7 @@
 			this.programAuthor = new System.Windows.Forms.Label();
 			this.lawWarning = new System.Windows.Forms.Label();
 			this.openSourceProjectButton = new WebtoonDownloader.Interface.FlatButton();
+			this.updateCheckStatus = new System.Windows.Forms.Label();
 			this.APP_TITLE_BAR.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.CLOSE_BUTTON)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.APP_LOGO)).BeginInit();
@@ -128,7 +129,7 @@
 			this.programTitleEN.AutoSize = true;
 			this.programTitleEN.BackColor = System.Drawing.Color.Transparent;
 			this.programTitleEN.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.programTitleEN.Location = new System.Drawing.Point(171, 75);
+			this.programTitleEN.Location = new System.Drawing.Point(173, 75);
 			this.programTitleEN.Name = "programTitleEN";
 			this.programTitleEN.Size = new System.Drawing.Size(141, 17);
 			this.programTitleEN.TabIndex = 7;
@@ -138,9 +139,9 @@
 			// 
 			this.programVersion.BackColor = System.Drawing.Color.Transparent;
 			this.programVersion.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.programVersion.Location = new System.Drawing.Point(256, 224);
+			this.programVersion.Location = new System.Drawing.Point(257, 274);
 			this.programVersion.Name = "programVersion";
-			this.programVersion.Size = new System.Drawing.Size(197, 17);
+			this.programVersion.Size = new System.Drawing.Size(196, 17);
 			this.programVersion.TabIndex = 8;
 			this.programVersion.Text = "버전 1.0.0.0";
 			this.programVersion.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -150,9 +151,9 @@
 			this.programAuthor.AutoSize = true;
 			this.programAuthor.BackColor = System.Drawing.Color.Transparent;
 			this.programAuthor.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.programAuthor.Location = new System.Drawing.Point(9, 224);
+			this.programAuthor.Location = new System.Drawing.Point(9, 274);
 			this.programAuthor.Name = "programAuthor";
-			this.programAuthor.Size = new System.Drawing.Size(241, 17);
+			this.programAuthor.Size = new System.Drawing.Size(242, 17);
 			this.programAuthor.TabIndex = 9;
 			this.programAuthor.Text = "Copyright © DeveloFOX Studio 2016";
 			// 
@@ -160,11 +161,11 @@
 			// 
 			this.lawWarning.BackColor = System.Drawing.Color.Transparent;
 			this.lawWarning.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.lawWarning.Location = new System.Drawing.Point(171, 100);
+			this.lawWarning.Location = new System.Drawing.Point(171, 147);
 			this.lawWarning.Name = "lawWarning";
-			this.lawWarning.Size = new System.Drawing.Size(282, 55);
+			this.lawWarning.Size = new System.Drawing.Size(282, 93);
 			this.lawWarning.TabIndex = 10;
-			this.lawWarning.Text = "본 소프트웨어 저작자 혹은 저작권자는 이 소프트웨어와 연관되어 발생하는 어떠한 법적 문제에 책임을 지지 않습니다.";
+			this.lawWarning.Text = "본 소프트웨어 저작자 혹은 저작권자는 이 소프트웨어와 연관되어 발생하는 어떠한 법적 문제에 책임을 지지 않습니다.\r\n\r\nMIT License";
 			// 
 			// openSourceProjectButton
 			// 
@@ -176,21 +177,32 @@
 			this.openSourceProjectButton.EnterStateBackgroundColor = System.Drawing.Color.Gainsboro;
 			this.openSourceProjectButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
 			this.openSourceProjectButton.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.openSourceProjectButton.Location = new System.Drawing.Point(174, 172);
+			this.openSourceProjectButton.Location = new System.Drawing.Point(12, 210);
 			this.openSourceProjectButton.Name = "openSourceProjectButton";
 			this.openSourceProjectButton.NormalStateBackgroundColor = System.Drawing.Color.WhiteSmoke;
-			this.openSourceProjectButton.Size = new System.Drawing.Size(142, 30);
+			this.openSourceProjectButton.Size = new System.Drawing.Size(150, 30);
 			this.openSourceProjectButton.TabIndex = 12;
 			this.openSourceProjectButton.Text = "오픈 소스 프로젝트";
 			this.openSourceProjectButton.UseVisualStyleBackColor = false;
 			this.openSourceProjectButton.Click += new System.EventHandler(this.openSourceProjectButton_Click);
+			// 
+			// updateCheckStatus
+			// 
+			this.updateCheckStatus.BackColor = System.Drawing.Color.Transparent;
+			this.updateCheckStatus.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.updateCheckStatus.Location = new System.Drawing.Point(173, 97);
+			this.updateCheckStatus.Name = "updateCheckStatus";
+			this.updateCheckStatus.Size = new System.Drawing.Size(278, 15);
+			this.updateCheckStatus.TabIndex = 13;
+			this.updateCheckStatus.Text = "업데이트 확인 중 ...";
 			// 
 			// Information
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.White;
-			this.ClientSize = new System.Drawing.Size(460, 250);
+			this.ClientSize = new System.Drawing.Size(460, 300);
+			this.Controls.Add(this.updateCheckStatus);
 			this.Controls.Add(this.openSourceProjectButton);
 			this.Controls.Add(this.lawWarning);
 			this.Controls.Add(this.programAuthor);
@@ -229,5 +241,6 @@
 		private System.Windows.Forms.Label lawWarning;
 		private FlatImageButton CLOSE_BUTTON;
 		private FlatButton openSourceProjectButton;
+		private System.Windows.Forms.Label updateCheckStatus;
 	}
 }

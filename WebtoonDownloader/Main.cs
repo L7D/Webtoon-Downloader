@@ -39,8 +39,10 @@ namespace WebtoonDownloader
 				{
 					case UIStatus.Idle:
 						Webtoon.FastDownloadMode = false;
+						Webtoon.OnlyDataMode = false;
 						Webtoon.DownloadBlockList.Clear( );
 						Webtoon.BaseDirectory = "";
+						Webtoon.CurrentBaseInformation = null;
 
 						REQUEST_BUTTON.ButtonText = "다운로드";
 						REQUEST_BUTTON.Enabled = true;
@@ -65,7 +67,6 @@ namespace WebtoonDownloader
 						downFinishShutDownCheckBox.Visible = false;
 						downFinishShutDownCheckBox.Checked = false;
 
-						//backgroundImage.Image = Properties.Resources.background;
 						SetRandomBackgroundWallpaper( );
 
 						targetWebtoonBasicInformation = null;
@@ -152,6 +153,33 @@ namespace WebtoonDownloader
 				Application.Exit( );
 				return;
 			}
+
+			//new NaverLoginForm( ).ShowDialog( );
+
+			Thread updateCheckThread = new Thread( ( ) =>
+			{
+				GlobalVar.updateResult = API.Update.Check( );
+
+				if ( GlobalVar.updateResult == API.Update.UpdateCheckResult.UpdateNeed )
+				{
+					if ( this.InvokeRequired )
+					{
+						this.Invoke( new Action( delegate( )
+						{
+							new UpdateNotifyForm( ).ShowDialog( );
+						} ) );
+					}
+					else
+					{
+						new UpdateNotifyForm( ).ShowDialog( );
+					}
+				}
+			} )
+			{
+				IsBackground = true
+			};
+
+			updateCheckThread.Start( );
 
 			//APP_TITLE_BAR.BackColor = Color.FromArgb( 200, 255, 255, 255 );
 			APP_TITLE_BAR.Parent = backgroundImage;

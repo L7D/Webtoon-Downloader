@@ -493,5 +493,25 @@ namespace WebtoonDownloader.Interface
 			e.Graphics.DrawLine( lineDrawer, w - lineDrawer.Width, 0, w - lineDrawer.Width, h ); // Right line drawing
 			e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
 		}
+
+		private void onlyDataModeSwitch_Click( object sender, EventArgs e )
+		{
+			Webtoon.OnlyDataMode = !Webtoon.OnlyDataMode;
+
+			if ( Webtoon.OnlyDataMode )
+			{
+				toolTipControl.SetToolTip( onlyDataModeSwitch, "통합 데이터 모드 사용 중" + Environment.NewLine + "통합 데이터 모드는 웹툰 다운로더 프로그램 뷰어로 볼 수 있는 확장자로 웹툰을 다운받습니다, 용량이 줄어들고 더 빨라집니다." );
+
+				onlyDataModeSwitch.EnterStateBackgroundColor = Color.DimGray;
+				onlyDataModeSwitch.NormalStateBackgroundColor = Color.MediumAquamarine;
+			}
+			else
+			{
+				toolTipControl.SetToolTip( onlyDataModeSwitch, "통합 데이터 모드 사용 가능" + Environment.NewLine + "통합 데이터 모드는 웹툰 다운로더 프로그램 뷰어로 볼 수 있는 확장자로 웹툰을 다운받습니다, 용량이 줄어들고 더 빨라집니다." );
+
+				onlyDataModeSwitch.EnterStateBackgroundColor = Color.MediumAquamarine;
+				onlyDataModeSwitch.NormalStateBackgroundColor = Color.DimGray;
+			}
+		}
 	}
 }

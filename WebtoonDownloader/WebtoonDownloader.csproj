@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="API\ImageMerge.cs" />
     <Compile Include="API\NotifyBox.cs" />
+    <Compile Include="API\ProgramViewer.cs" />
+    <Compile Include="API\Update.cs" />
     <Compile Include="API\Utility.cs" />
     <Compile Include="API\Viewer.cs" />
     <Compile Include="API\Win32.cs" />
@@ -79,6 +81,12 @@
     <Compile Include="Interface\Information.Designer.cs">
       <DependentUpon>Information.cs</DependentUpon>
     </Compile>
+    <Compile Include="Interface\NaverLoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\NaverLoginForm.Designer.cs">
+      <DependentUpon>NaverLoginForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\NotifyBoxInterface.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +98,12 @@
     </Compile>
     <Compile Include="Interface\ShutdownNotify.Designer.cs">
       <DependentUpon>ShutdownNotify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\UpdateNotifyForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\UpdateNotifyForm.Designer.cs">
+      <DependentUpon>UpdateNotifyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Interface\WebtoonListChild.cs">
       <SubType>UserControl</SubType>
@@ -139,11 +153,17 @@
     <EmbeddedResource Include="Interface\Information.resx">
       <DependentUpon>Information.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Interface\NaverLoginForm.resx">
+      <DependentUpon>NaverLoginForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\NotifyBoxInterface.resx">
       <DependentUpon>NotifyBoxInterface.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interface\ShutdownNotify.resx">
       <DependentUpon>ShutdownNotify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\UpdateNotifyForm.resx">
+      <DependentUpon>UpdateNotifyForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Interface\WebtoonListChild.resx">
       <DependentUpon>WebtoonListChild.cs</DependentUpon>
@@ -188,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="APP_ICON.ico" />
+    <None Include="Resources\vDataMode.png" />
     <None Include="Resources\adultIcon.png" />
     <None Include="Resources\searchIcon.png" />
     <None Include="Resources\fastDownload.png" />

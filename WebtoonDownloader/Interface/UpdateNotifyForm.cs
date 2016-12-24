@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -11,7 +12,7 @@ using WebtoonDownloader.API;
 
 namespace WebtoonDownloader.Interface
 {
-	public partial class Information : Form
+	public partial class UpdateNotifyForm : Form
 	{
 		private Point startPoint;
 		private Pen lineDrawer = new Pen( GlobalVar.outlineColor )
@@ -19,14 +20,31 @@ namespace WebtoonDownloader.Interface
 			Width = 1
 		};
 
-		public Information( )
+		public UpdateNotifyForm( )
 		{
 			InitializeComponent( );
 		}
 
-		private void CLOSE_BUTTON_Click( object sender, EventArgs e )
+		private void UpdateNotifyForm_Load( object sender, EventArgs e )
 		{
-			this.Close( );
+			try
+			{
+				WebClient client = new WebClient( );
+				string htmlString = client.DownloadString( "https://raw.githubusercontent.com/DeveloFOX-Studio/Webtoon-Downloader/master/Update/updateLog.html" );
+
+				updateLogHTMLText.DocumentText = "0";
+				updateLogHTMLText.Document.OpenNew( true );
+				updateLogHTMLText.Document.Write( htmlString );
+				updateLogHTMLText.Refresh( );
+			}
+			catch ( WebException ex )
+			{
+				NotifyBox.Show( this, "오류", "업데이트 내역을 가져올 수 없습니다.", NotifyBoxType.OK, NotifyBoxIcon.Error );
+			}
+			catch ( Exception ex )
+			{
+				NotifyBox.Show( this, "오류", "업데이트 내역을 가져올 수 없습니다.", NotifyBoxType.OK, NotifyBoxIcon.Error );
+			}
 		}
 
 		private void APP_TITLE_BAR_MouseMove( object sender, MouseEventArgs e )
@@ -58,7 +76,7 @@ namespace WebtoonDownloader.Interface
 			e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
 		}
 
-		private void Information_Paint( object sender, PaintEventArgs e )
+		private void UpdateNotifyForm_Paint( object sender, PaintEventArgs e )
 		{
 			int w = this.Width, h = this.Height;
 
@@ -68,45 +86,14 @@ namespace WebtoonDownloader.Interface
 			e.Graphics.DrawLine( lineDrawer, 0, h - lineDrawer.Width, w, h - lineDrawer.Width ); // Bottom line drawing
 		}
 
-		private void Information_Load( object sender, EventArgs e )
+		private void CLOSE_BUTTON_Click( object sender, EventArgs e )
 		{
-			Version version = System.Reflection.Assembly.GetExecutingAssembly( ).GetName( ).Version;
-
-			programVersion.Text = "버전 " + version.Major + "." + version.Minor + "." + version.Build + "." + version.Revision;
-
-			switch ( GlobalVar.updateResult )
-			{
-				case API.Update.UpdateCheckResult.IsLatestVersion:
-					updateCheckStatus.Text = "최신 버전을 사용 중 입니다.";
-					break;
-				case API.Update.UpdateCheckResult.UpdateNeed:
-					updateCheckStatus.Text = "새로운 업데이트가 있습니다.";
-					break;
-				case API.Update.UpdateCheckResult.ServerError:
-					updateCheckStatus.Text = "업데이트 서버에 연결할 수 없습니다.";
-					break;
-				case API.Update.UpdateCheckResult.UnknownError:
-					updateCheckStatus.Text = "알 수 없는 오류가 발생했습니다.";
-					break;
-				case API.Update.UpdateCheckResult.NotChecked:
-					updateCheckStatus.Text = "업데이트 확인 중 ...";
-					break;
-			}
+			this.Close( );
 		}
 
-		private void openSourceProjectButton_Click( object sender, EventArgs e )
+		private void UPDATE_BUTTON_Click( object sender, EventArgs e )
 		{
-			try
-			{
-				System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo( "en-US" );
 
-				System.Diagnostics.Process.Start( "https://github.com/DeveloFOX-Studio/Webtoon-Downloader" );
-			}
-			catch ( Exception ex )
-			{
-				Utility.WriteErrorLog( ex.Message, "Exception" );
-				NotifyBox.Show( this, "오류", "알 수 없는 오류가 발생했습니다, 로그 파일을 참고하세요.", NotifyBoxType.OK, NotifyBoxIcon.Error );
-			}
 		}
 	}
 }

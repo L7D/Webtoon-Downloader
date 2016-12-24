@@ -14,11 +14,11 @@ namespace WebtoonDownloader.Interface
 	public partial class NotifyBoxInterface : Form
 	{
 		private Point startPoint = new Point( 0, 0 );
-		public event Action<NotifyBoxResult> EventBack;
 		private Pen lineDrawer = new Pen( GlobalVar.outlineColor )
 		{
 			Width = 1
 		};
+		public NotifyBoxResult Result;
 
 		public NotifyBoxInterface( string title, string message, NotifyBoxType type, NotifyBoxIcon icon )
 		{
@@ -53,28 +53,47 @@ namespace WebtoonDownloader.Interface
 					OK_Button.Visible = true;
 					Yes_Button.Visible = false;
 					NO_Button.Visible = false;
+
+					this.FormClosing += delegate( object sender, FormClosingEventArgs e )
+					{
+						if ( Result != NotifyBoxResult.OK )
+						{
+							Result = NotifyBoxResult.OK;
+						}
+					};
 					break;
 				case NotifyBoxType.YesNo:
 					OK_Button.Visible = false;
 					Yes_Button.Visible = true;
 					NO_Button.Visible = true;
+
+					this.FormClosing += delegate( object sender, FormClosingEventArgs e )
+					{
+						if ( Result != NotifyBoxResult.Yes && Result != NotifyBoxResult.No )
+						{
+							Result = NotifyBoxResult.No;
+						}
+					};
 					break;
 			}
 		}
 
 		private void Yes_Button_Click( object sender, EventArgs e )
 		{
-			EventBack.Invoke( NotifyBoxResult.Yes );
+			Result = NotifyBoxResult.Yes;
+			this.Close( );
 		}
 
 		private void NO_Button_Click( object sender, EventArgs e )
 		{
-			EventBack.Invoke( NotifyBoxResult.No );
+			Result = NotifyBoxResult.No;
+			this.Close( );
 		}
 
 		private void OK_Button_Click( object sender, EventArgs e )
 		{
-			EventBack.Invoke( NotifyBoxResult.OK );
+			Result = NotifyBoxResult.OK;
+			this.Close( );
 		}
 
 		private void APP_TITLE_BAR_MouseMove( object sender, MouseEventArgs e )
@@ -94,11 +113,6 @@ namespace WebtoonDownloader.Interface
 			{
 				startPoint = e.Location;
 			}
-		}
-
-		private void NotifyBoxInterface_Load( object sender, EventArgs e )
-		{
-
 		}
 
 		private void APP_TITLE_BAR_Paint( object sender, PaintEventArgs e )

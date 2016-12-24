@@ -26,7 +26,7 @@ namespace WebtoonDownloader.Interface
 		{
 			System.Threading.Thread closeWait = new System.Threading.Thread( ( ) =>
 			{
-				System.Threading.Thread.Sleep( 1000 );
+				System.Threading.Thread.Sleep( 3000 );
 
 				if ( this.InvokeRequired )
 				{

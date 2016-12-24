@@ -33,7 +33,8 @@ namespace WebtoonDownloader.API
 
 				foreach ( string i in files )
 				{
-					imageSB.AppendLine( "<img src = '이미지/" + Path.GetFileName( i ) + "' />" );
+					if ( File.Exists( i ) )
+						imageSB.AppendLine( "<img src = '이미지/" + Path.GetFileName( i ) + "' />" );
 				}
 
 				htmlSB.Replace( "#images", imageSB.ToString( ) );

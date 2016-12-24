@@ -29,7 +29,8 @@ namespace WebtoonDownloader
 			}
 			catch ( Exception )
 			{
-				NotifyBox.Show( null, "심각한 오류", "DLL를 불러올 수 없습니다, 프로그램을 재설치 해주세요.", NotifyBoxType.OK, NotifyBoxIcon.Error );
+				NotifyBox.Show( null, "오류", "DLL을 불러올 수 없습니다, 프로그램을 재설치 해주세요.", NotifyBoxType.OK, NotifyBoxIcon.Error );
+				System.Diagnostics.Process.GetCurrentProcess( ).Kill( );
 				return;
 			}
 
