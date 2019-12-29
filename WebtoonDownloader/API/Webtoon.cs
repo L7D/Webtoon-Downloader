@@ -903,7 +903,10 @@ namespace WebtoonDownloader
 
 							foreach ( HtmlNode node in document.DocumentNode.SelectNodes( "//img" ) )
 							{
-								if ( node.GetAttributeValue( "src", "" ).StartsWith( "http://imgcomic.naver.net/webtoon/" ) )
+
+								String src = node.GetAttributeValue("src", "");
+								if (src.Contains("comic.pstatic.net/webtoon/"))
+								//if ( node.GetAttributeValue( "src", "" ).StartsWith("http://image-comic.pstatic.net/webtoon/") )
 								{
 									webtoonImages.Add( node.GetAttributeValue( "src", "" ) );
 								}
